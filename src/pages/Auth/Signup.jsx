@@ -37,7 +37,7 @@ const Signup = () => {
                 navigate('/login')
             }
         } catch (error) {
-            
+
             console.log("Error from signup api", error)
         }
 

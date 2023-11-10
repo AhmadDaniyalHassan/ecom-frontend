@@ -102,8 +102,12 @@ const AddToCart = () => {
         });
         localStorage.removeItem('cart');
         setCart([]);
-        navigate('/dashboard/user/orders');
-      } else if (paymentMethod === 'braintree' && instance) {
+        if (auth?.user?.role === 1) {
+          navigate('/dashboard/admin/orders');
+        }
+        else { navigate('/dashboard/user/orders'); }
+      }
+      else if (paymentMethod === 'braintree' && instance) {
         const { nonce } = instance.requestPaymentMethod();
         const { data } = await axios.post('https://calm-gold-cormorant-slip.cyclic.app/api/product/braintree/payment', {
           nonce,
@@ -113,7 +117,11 @@ const AddToCart = () => {
         });
         localStorage.removeItem('cart');
         setCart([]);
-        navigate('/dashboard/user/orders');
+        if (auth?.user?.role === 1) {
+          navigate('/dashboard/admin/orders');
+        }
+        else { navigate('/dashboard/user/orders'); }
+
       }
       setLoading(false);
     } catch (error) {

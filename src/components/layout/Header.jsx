@@ -105,24 +105,17 @@ const Header = () => {
                 </ul>
               </li>
 
-              {!auth.user ?
-                (<>
+              {!auth.user ? (
+                <>
                   <li className="nav-item">
-                    <NavLink to={"/login"}
-                      className="nav-link"
-                      alt="login-page"
-                    >Login</NavLink>
+                    <NavLink to={"/login"} className="nav-link" alt="login-page">Login</NavLink>
                   </li>
-
                   <li className="nav-item">
-                    <NavLink to={"/signup"}
-                      className="nav-link"
-                      alt="signup-page"
-                    >Signup</NavLink>
+                    <NavLink to={"/signup"} className="nav-link" alt="signup-page">Signup</NavLink>
                   </li>
-
-                </>) : (<>
-
+                </>
+              ) : (
+                <>
                   <li className="text-center navdrop nav-item dropdown">
                     <NavLink className="nav-link dropdown-toggle"
                       role="button"
@@ -130,18 +123,34 @@ const Header = () => {
                       aria-expanded="false">
                       {auth?.user?.name}
                     </NavLink>
-
-
                     <ul className="dropdown-menu dropnav">
-                      <li><NavLink className="dropdown-item"
-                        to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
-                      >Dashboard</NavLink></li>
-                      <li><NavLink onClick={handleLogout} className="dropdown-item"
-                        to={"/login"}
-                      >Logout</NavLink></li>
+                      {auth?.user?.role === 1 && (
+                        <li>
+                          <NavLink className="dropdown-item"
+                            to={`/dashboard/admin`}
+                          >
+                            Dashboard
+                          </NavLink>
+                        </li>
+                      )}
+                      <li>
+                        <NavLink className="dropdown-item"
+                          to={`/dashboard/user`}
+                        >
+                          Profile
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink onClick={handleLogout} className="dropdown-item"
+                          to={"/login"}
+                        >
+                          Logout
+                        </NavLink>
+                      </li>
                     </ul>
                   </li>
-                </>)}
+                </>
+              )}
               <li className="text-center nav-item nav-bar-cart-wish-slider" style={{ marginTop: '1.7px', listStyle: 'none', marginRight: '10px' }}>
                 <Badge style={{ marginRight: '12px', marginTop: '6px', backgroundColor: 'black' }} count={wishlist.length} showZero className="cart-badge">
                   <NavLink to={"/wishlist"}
