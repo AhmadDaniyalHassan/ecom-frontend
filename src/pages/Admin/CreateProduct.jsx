@@ -22,7 +22,7 @@ const CreateProduct = () => {
     const getAllCategory = async () => {
         try {
 
-            const { data } = await axios.get('http://localhost:8000/api/category/get-category')
+            const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/category/get-category')
             if (data?.success) {
                 setCategories(data?.category)
             }
@@ -48,7 +48,7 @@ const CreateProduct = () => {
             formData.append('in_stock', inStock)
 
 
-            const { data } = axios.post('http://localhost:8000/api/product/create-product', formData)
+            const { data } = axios.post('https://calm-gold-cormorant-slip.cyclic.app/api/product/create-product', formData)
             if (data?.success) {
                 toast.error(data?.message);
             } else {

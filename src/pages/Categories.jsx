@@ -41,17 +41,8 @@ const Categories = () => {
                     ))}
                 </div>
             </div>
-
-
-
-
         </Layout >
     )
 }
 
 export default Categories
-{/* <div className="col-12 col-sm-8 col-md-6 col-lg-4">
-<div className="card-body">
-    <Link to={`/category/${c.slug}`} className="d-flex justify-content-between align-items-center p-2" >
-    </Link>
-</div> */}

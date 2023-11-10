@@ -47,7 +47,7 @@ const Product = () => {
     // Function to fetch reviews
     const fetchReviews = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/review/${productId}/get-reviews`, {
+            const response = await axios.get(`https://calm-gold-cormorant-slip.cyclic.app/api/review/${productId}/get-reviews`, {
                 params: { page },
             });
             setReviews(response?.data?.reviews);
@@ -61,7 +61,7 @@ const Product = () => {
     // Function to fetch questions
     const fetchQuestions = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/review/get-questions/${productId}`);
+            const response = await axios.get(`https://calm-gold-cormorant-slip.cyclic.app/api/review/get-questions/${productId}`);
             setQuestions(response?.data?.question);
         } catch (error) {
             console.error('Error fetching questions:', error);
@@ -77,7 +77,7 @@ const Product = () => {
             return;
         }
         try {
-            const response = await axios.post(`http://localhost:8000/api/review/${productId}/post-questions`, {
+            const response = await axios.post(`https://calm-gold-cormorant-slip.cyclic.app/api/review/${productId}/post-questions`, {
                 question,
                 title,
                 userId: auth?.user._id,
@@ -94,7 +94,7 @@ const Product = () => {
     const updateAnswer = async (questionId, answer) => {
         try {
             const response = await axios.put(
-                `http://localhost:8000/api/review/${productId}/ans-questions/${questionId}`,
+                `https://calm-gold-cormorant-slip.cyclic.app/api/review/${productId}/ans-questions/${questionId}`,
                 { answer }
             );
             setQuestions((prevQuestions) => {
@@ -112,7 +112,7 @@ const Product = () => {
 
     const deleteQuestion = async (questionId) => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/review/${productId}/delete-questions/${questionId}`);
+            const response = await axios.delete(`https://calm-gold-cormorant-slip.cyclic.app/api/review/${productId}/delete-questions/${questionId}`);
             if (response.data.success) {
                 // Filter out the deleted question from the local state
                 setQuestions((prevQuestions) => prevQuestions.filter((question) => question._id !== questionId));
@@ -141,7 +141,7 @@ const Product = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/review/${productId}/reviews`, {
+            const response = await axios.post(`https://calm-gold-cormorant-slip.cyclic.app/api/review/${productId}/reviews`, {
                 rating,
                 comment,
                 user: auth.user._id,
@@ -172,7 +172,7 @@ const Product = () => {
     // Function to fetch the product and related products
     const getAllProduct = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:8000/api/product/single-product/${params.slug}`);
+            const { data } = await axios.get(`https://calm-gold-cormorant-slip.cyclic.app/api/product/single-product/${params.slug}`);
             setProduct(data?.product);
             getSimilarProduct(data?.product?._id, data?.product.category._id);
             setProductId(data?.product?._id);
@@ -197,7 +197,7 @@ const Product = () => {
     // Function to get similar products
     const getSimilarProduct = async (pid, cid) => {
         try {
-            const { data } = await axios.get(`http://localhost:8000/api/product/similar-product/${pid}/${cid}`);
+            const { data } = await axios.get(`https://calm-gold-cormorant-slip.cyclic.app/api/product/similar-product/${pid}/${cid}`);
             setRelatedProduct(data?.products);
         } catch (error) {
             console.log(error, 'from similar products');

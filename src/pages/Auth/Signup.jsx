@@ -36,7 +36,7 @@ const Signup = () => {
         formdata.append("role", role);
 
         try {
-            const response = await axios.post("http://localhost:8000/api/user/signup",
+            const response = await axios.post("https://calm-gold-cormorant-slip.cyclic.app/api/user/signup",
                 { name, email, password, phone, address, answer,role });
             if (response && response.data.success) {
                 // console.log("response coming from signup api okay : ", response.data.message)

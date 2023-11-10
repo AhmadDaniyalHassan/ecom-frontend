@@ -28,7 +28,7 @@ const UserProfile = () => {
         formdata.append("address", address);
 
         try {
-            const { data } = await axios.put("http://localhost:8000/api/user/profile",
+            const { data } = await axios.put("https://calm-gold-cormorant-slip.cyclic.app/api/user/profile",
                 { name, email, password, phone, address });
             if (data?.error) {
                 console.log(data?.error, "error coming from update function")

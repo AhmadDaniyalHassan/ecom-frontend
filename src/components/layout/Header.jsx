@@ -165,9 +165,6 @@ const Header = () => {
               </li>
             </ul>
           </div>
-          {/* <button className={`btn 'Dark' ? 'btn-light' : 'btn-dark'}`}>
-
-          </button> */}
         </div>
       </nav>
 

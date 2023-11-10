@@ -13,7 +13,7 @@ export default function AdminRoute() {
 
     useEffect(() => {
         const authCheck = async () => {
-            const res = await axios.get('http://localhost:8000/api/user/admin-auth')
+            const res = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/user/admin-auth')
             if (res.data.ok) {
                 setOk(true)
             } else {

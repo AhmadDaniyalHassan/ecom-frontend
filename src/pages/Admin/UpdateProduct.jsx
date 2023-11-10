@@ -26,7 +26,7 @@ const UpdateProduct = () => {
     const getSingleProduct = async () => {
         try {
 
-            const { data } = await axios.get(`http://localhost:8000/api/product/single-product/${params.slug}`)
+            const { data } = await axios.get(`https://calm-gold-cormorant-slip.cyclic.app/api/product/single-product/${params.slug}`)
             if (data?.success) {
                 setName(data?.product.name)
                 setDescription(data?.product.description)
@@ -50,7 +50,7 @@ const UpdateProduct = () => {
     const getAllCategory = async () => {
         try {
 
-            const { data } = await axios.get('http://localhost:8000/api/category/get-category')
+            const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/category/get-category')
             if (data?.success) {
                 setCategories(data?.category)
             }

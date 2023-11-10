@@ -4,7 +4,6 @@ import About from './pages/About.jsx';
 import Search from './pages/Search.jsx';
 import Misc from './pages/Admin/Misc.jsx';
 import Login from "./pages/Auth/Login.jsx";
-import CheckOut from "./pages/CheckOut.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import Wishlist from './pages/Wishlist.jsx';
 import SignUp from "./pages/Auth/Signup.jsx";
@@ -50,7 +49,6 @@ function App() {
         <Route path="/categories" element={<Categories />} />
         <Route path="/category/:slug" element={<CategoryList />} />
 
-        <Route path="/checkout" element={<CheckOut />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
 

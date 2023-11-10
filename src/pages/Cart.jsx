@@ -83,7 +83,7 @@ const AddToCart = () => {
 
   const getToken = async () => {
     try {
-      const { data } = await axios.get('http://localhost:8000/api/product/braintree/token')
+      const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/product/braintree/token')
       setClientToken(data?.clientToken)
     } catch (error) {
       console.log(error)
@@ -95,7 +95,7 @@ const AddToCart = () => {
       setLoading(true);
       if (paymentMethod === 'cod') {
         // Handle Cash on Delivery (COD) payment logic
-        const { data } = await axios.post('http://localhost:8000/api/product/braintree/payment', {
+        const { data } = await axios.post('https://calm-gold-cormorant-slip.cyclic.app/api/product/braintree/payment', {
           cart,
           quantity,
           paymentMethod,
@@ -105,7 +105,7 @@ const AddToCart = () => {
         navigate('/dashboard/user/orders');
       } else if (paymentMethod === 'braintree' && instance) {
         const { nonce } = instance.requestPaymentMethod();
-        const { data } = await axios.post('http://localhost:8000/api/product/braintree/payment', {
+        const { data } = await axios.post('https://calm-gold-cormorant-slip.cyclic.app/api/product/braintree/payment', {
           nonce,
           cart,
           quantity,

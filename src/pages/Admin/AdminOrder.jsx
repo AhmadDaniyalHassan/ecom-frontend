@@ -18,7 +18,7 @@ const AdminOrder = () => {
 
     const getOrders = async () => {
         try {
-            const { data } = await axios.get('http://localhost:8000/api/user/all-orders')
+            const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/user/all-orders')
             setOrders(data)
         } catch (error) { console.log(error) }
     }
@@ -30,7 +30,7 @@ const AdminOrder = () => {
 
     const handleChange = async (orderId, value) => {
         try {
-            const { data } = await axios.put(`http://localhost:8000/api/user/order-status/${orderId}`, { status: value })
+            const { data } = await axios.put(`https://calm-gold-cormorant-slip.cyclic.app/api/user/order-status/${orderId}`, { status: value })
             getOrders()
         } catch (error) {
             console.log(error);
