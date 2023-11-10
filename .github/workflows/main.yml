@@ -1,12 +1,10 @@
-name: Frontend CI/CD
+name: Frontend CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -15,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.8.0]
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
       - name: Checkout repository
