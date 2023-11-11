@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "npm build",
+    "install": "npm install",
+    "build": "npm run build",
     "start": "npm run dev",
     "preview": "vite preview"
   },
