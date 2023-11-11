@@ -7,7 +7,7 @@ export default function useCategory() {
   const getCategories = async () => {
     try {
       const { data } = await axios.get(
-        "https://calm-gold-cormorant-slip.cyclic.app/api/category/get-category"
+        "https://backend-ecom-9zf7.onrender.com/api/category/get-category"
       );
       setCategories(data?.category);
     } catch (error) {

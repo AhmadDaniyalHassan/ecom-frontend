@@ -4,7 +4,6 @@ import AdminMenu from '../../components/layout/AdminMenu'
 import axios from 'axios'
 import { Select } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import toast from "react-hot-toast";
 
 const { Option } = Select
 const CreateProduct = () => {
@@ -22,7 +21,7 @@ const CreateProduct = () => {
     const getAllCategory = async () => {
         try {
 
-            const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/category/get-category')
+            const { data } = await axios.get('https://ecom-backendd.onrender.com/api/category/get-category')
             if (data?.success) {
                 setCategories(data?.category)
             }
@@ -48,11 +47,9 @@ const CreateProduct = () => {
             formData.append('in_stock', inStock)
 
 
-            const { data } = axios.post('https://calm-gold-cormorant-slip.cyclic.app/api/product/create-product', formData)
+            const { data } = axios.post('https://backend-ecom-9zf7.onrender.com/api/product/create-product', formData)
             if (data?.success) {
-                toast.error(data?.message);
             } else {
-                toast.success("Product Created Successfully");
                 timeout = setTimeout(() => {
                     navigate("/dashboard/admin/products");
                     clearTimeout(timeout)
@@ -60,7 +57,6 @@ const CreateProduct = () => {
             }
         } catch (error) {
             console.log(error);
-            toast.error("something went wrong");
         }
     }
     return (

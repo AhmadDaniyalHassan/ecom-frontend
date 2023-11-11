@@ -14,7 +14,7 @@ const UserShow = () => {
 
   const getAllUsers = async () => {
     try {
-      const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/user/get-user');
+      const { data } = await axios.get('https://backend-ecom-9zf7.onrender.com/api/user/get-user');
       setUser(data?.users);
     } catch (error) {
       console.log(error);
@@ -25,7 +25,7 @@ const UserShow = () => {
     try {
 
       const loggedInAdminUserId = auth.user._id
-      const { data } = await axios.get(`https://calm-gold-cormorant-slip.cyclic.app/api/user/get-active-admins/${loggedInAdminUserId}`);
+      const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/user/get-active-admins/${loggedInAdminUserId}`);
       setAdmin(data?.users);
     } catch (error) {
       console.log(error);
@@ -34,7 +34,7 @@ const UserShow = () => {
 
   const handleDelete = async (userId) => {
     try {
-      const { data } = await axios.delete(`https://calm-gold-cormorant-slip.cyclic.app/api/user/delete-user/${userId}`);
+      const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/user/delete-user/${userId}`);
       console.log(data);
       getAllUsers(); // Refresh the user list after deletion.
     } catch (error) {
@@ -45,7 +45,7 @@ const UserShow = () => {
   const handleToggleAdmin = async (userId, isActive) => {
     try {
       // Send a request to toggle the admin's status based on their current status
-      const response = await axios.put(`https://calm-gold-cormorant-slip.cyclic.app/api/user/toggle-admin/${userId}`);
+      const response = await axios.put(`https://backend-ecom-9zf7.onrender.com/api/user/toggle-admin/${userId}`);
 
       if (response.data.success) {
         // Update the local state to toggle the active status

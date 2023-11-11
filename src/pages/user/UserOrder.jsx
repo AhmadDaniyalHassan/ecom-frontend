@@ -14,7 +14,7 @@ const Order = () => {
     const getOrders = async () => {
         try {
             if (auth?.token) {
-                const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/user/orders');
+                const { data } = await axios.get('https://backend-ecom-9zf7.onrender.com/api/user/orders');
                 setOrders(data);
             }
         } catch (error) {

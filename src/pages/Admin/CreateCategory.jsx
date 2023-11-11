@@ -20,7 +20,7 @@ const CreateCategory = () => {
         e.preventDefault()
         try {
 
-            const { data } = await axios.post('https://calm-gold-cormorant-slip.cyclic.app/api/category/create-category', { name })
+            const { data } = await axios.post('https://backend-ecom-9zf7.onrender.com/api/category/create-category', { name })
             if (data?.success) {
                 getAllCategory()
                 // setName('')
@@ -35,7 +35,7 @@ const CreateCategory = () => {
     const getAllCategory = async () => {
         try {
 
-            const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/category/get-category')
+            const { data } = await axios.get('https://backend-ecom-9zf7.onrender.com/api/category/get-category')
             if (data?.success) {
                 setCategory(data?.category)
             }
@@ -53,7 +53,7 @@ const CreateCategory = () => {
     const handleUpdateSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await axios.put(`https://calm-gold-cormorant-slip.cyclic.app/api/category/update-category/${selected._id}`, { name: updatedName })
+            const { data } = await axios.put(`https://backend-ecom-9zf7.onrender.com/api/category/update-category/${selected._id}`, { name: updatedName })
             if (data.success) {
                 setSelected(null)
                 setUpdatedName('')
@@ -67,7 +67,7 @@ const CreateCategory = () => {
     }
     const handleDeleteSubmit = async (pid) => {
         try {
-            const { data } = await axios.delete(`https://calm-gold-cormorant-slip.cyclic.app/api/category/delete-category/${pid}`)
+            const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/category/delete-category/${pid}`)
             if (data.success) {
                 getAllCategory()
             }

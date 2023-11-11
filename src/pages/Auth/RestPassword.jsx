@@ -19,7 +19,7 @@ const RestPassword = () => {
         e.preventDefault()
         setLoading(true);
         try {
-            const response = await axios.post("https://calm-gold-cormorant-slip.cyclic.app/api/user/reset-code-password",
+            const response = await axios.post("https://backend-ecom-9zf7.onrender.com/api/user/reset-code-password",
                 { email, resetCode, newPassword });
             if (response && response.data) {
                 navigate("/login")

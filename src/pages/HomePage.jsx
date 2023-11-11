@@ -7,8 +7,6 @@ import { useCart } from '../context/cart'
 import { useWishlist } from '../context/wishlist'
 import wishlists from '../assets/wishlists.svg'
 import { Prices } from '../components/Prices'
-import StarRatings from 'react-star-ratings'
-
 const HomePage = () => {
     // const dispatch = useDispatch()
     const [product, setProduct] = useState([]);
@@ -25,7 +23,7 @@ const HomePage = () => {
     const getAllProduct = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`https://calm-gold-cormorant-slip.cyclic.app/api/product/product-list/${page}`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
             setLoading(false)
             setProduct(data?.products)
         } catch (error) {
@@ -42,7 +40,7 @@ const HomePage = () => {
     const loadMore = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`https://calm-gold-cormorant-slip.cyclic.app/api/product/product-list/${page}`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
             setLoading(false)
             setProduct([...product, ...data?.products])
 
@@ -53,7 +51,7 @@ const HomePage = () => {
     }
     const getTotal = async () => {
         try {
-            const { data } = await axios.get("https://calm-gold-cormorant-slip.cyclic.app/api/product/product-count")
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-count`)
             setTotal(data?.total)
         } catch (error) {
             console.log(error)
@@ -68,7 +66,7 @@ const HomePage = () => {
 
     const getCategory = async () => {
         try {
-            const { data } = await axios.get('https://calm-gold-cormorant-slip.cyclic.app/api/category/get-category')
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/category/get-category`)
             if (data?.success) {
                 setCategory(data?.category)
             }
@@ -123,7 +121,7 @@ const HomePage = () => {
 
     const filterProduct = async () => {
         try {
-            const { data } = await axios.post('https://calm-gold-cormorant-slip.cyclic.app/api/product/filter-product', { checked, radio })
+            const { data } = await axios.post(`https://backend-ecom-9zf7.onrender.com/api/product/filter-product`, { checked, radio })
             setProduct(data?.product)
 
         } catch (error) {

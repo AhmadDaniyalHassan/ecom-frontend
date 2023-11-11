@@ -18,7 +18,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post("https://calm-gold-cormorant-slip.cyclic.app/api/user/login", { email, password });
+      const response = await axios.post("https://backend-ecom-9zf7.onrender.com/api/user/login", { email, password });
       if (response.data) {
         // console.log("response coming from login api okay : ", response.data)
         setAuth({

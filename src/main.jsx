@@ -20,11 +20,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Provider store={store}>
         <CartProvider>
           {/* <ProductProvider> */}
-            <WishlistProvider>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter >
-            </WishlistProvider>
+          <WishlistProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter >
+          </WishlistProvider>
           {/* </ProductProvider> */}
         </CartProvider>
       </Provider>

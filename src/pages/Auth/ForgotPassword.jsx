@@ -20,7 +20,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("https://calm-gold-cormorant-slip.cyclic.app/api/user/forgot-password",
+      const response = await axios.post("https://backend-ecom-9zf7.onrender.com/api/user/forgot-password",
         { email });
       if (response && response.data) {
         // console.log("response coming from forgot password api okay : ", response.data)
