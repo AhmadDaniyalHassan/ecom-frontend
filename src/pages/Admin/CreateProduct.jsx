@@ -21,7 +21,7 @@ const CreateProduct = () => {
     const getAllCategory = async () => {
         try {
 
-            const { data } = await axios.get('https://ecom-backendd.onrender.com/api/category/get-category')
+            const { data } = await axios.get('https://backend-ecom-9zf7.onrender.com/api/category/get-category')
             if (data?.success) {
                 setCategories(data?.category)
             }

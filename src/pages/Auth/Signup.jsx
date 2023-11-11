@@ -48,11 +48,6 @@ const Signup = () => {
         }
     }
     handleNavigation()
-
-
-
-
-
     return (
         <>
             <Header />
