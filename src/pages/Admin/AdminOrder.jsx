@@ -19,6 +19,7 @@ const AdminOrder = () => {
     const getOrders = async () => {
         try {
             const { data } = await axios.get('https://backend-ecom-9zf7.onrender.com/api/user/all-orders')
+            console.log(data)
             setOrders(data)
         } catch (error) { console.log(error) }
     }
@@ -26,6 +27,7 @@ const AdminOrder = () => {
     const handleDelete = async (orderId) => {
         try {
             const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/user/delete-order/${orderId}`);
+
             getOrders(); // Refresh the order list after deletion
         } catch (error) {
             console.log(error);

@@ -9,6 +9,7 @@ const Footer = () => {
     const [email, setEmail] = useState('');
     const [auth, setAuth] = useAuth()
     const [loading, setLoading] = useState(false);
+
     const handleSubscribe = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -92,6 +93,7 @@ const Footer = () => {
                                                             {loading ? 'Subscribing...' : 'Subscribe Now'}
                                                         </button>
                                                     </span>
+                                                    
                                                 </div>
                                             </form>
 
