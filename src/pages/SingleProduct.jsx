@@ -24,45 +24,64 @@ const Product = () => {
     const [questions, setQuestions] = useState([]);
     const [answerValues, setAnswerValues] = useState({});
     const [currentQuestionId, setCurrentQuestionId] = useState('');
+    const [currentReviewId, setCurrentReviewId] = useState('');
     const [question, setQuestion] = useState('');
+    const [limit, setLimit] = useState(5);
     const [title, setTitle] = useState('');
+    const [questionPage, setQuestionPage] = useState(1);
+
     const navigate = useNavigate();
     const [auth] = useAuth();
 
-    // Fetch reviews and questions on component mount
+    // Fetch reviews and products on component mount
     useEffect(() => {
         if (params?.slug) {
             getAllProduct();
             fetchReviews();
         }
-    }, [params?.slug, productId]);
+    }, [params?.slug, productId, page, questionPage]);
 
     // Fetch questions when productId is available
     useEffect(() => {
         if (productId) {
             fetchQuestions();
         }
-    }, [productId]);
+    }, [productId, questionPage, limit]);
+
 
     // Function to fetch reviews
     const fetchReviews = async () => {
         try {
+            // Check if productId is defined and not empty
+            if (!productId) {
+                console.warn('ProductId is not defined or empty. Reviews will not be fetched.');
+                setLoading(false);
+                return;
+            }
+
             const response = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/review/${productId}/get-reviews`, {
-                params: { page },
+                params: { page: page },
             });
             setReviews(response?.data?.reviews);
             setLoading(false);
         } catch (error) {
-            console.error('Error coming from reviews get request:', error);
+            console.error('Error coming from reviews get request:', error.message);
             setLoading(false);
         }
     };
 
+    useEffect(() => {
+        fetchReviews(); // Make sure fetchReviews is defined in the same scope
+    }, [productId]);
+
     // Function to fetch questions
     const fetchQuestions = async () => {
         try {
-            const response = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/review/get-questions/${productId}`);
-            setQuestions(response?.data?.question);
+            const response = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/review/get-questions/${productId}`,
+                {
+                    params: { questionPage: questionPage },
+                });
+            setQuestions(response?.data?.questions);
         } catch (error) {
             console.error('Error fetching questions:', error);
         }
@@ -124,9 +143,27 @@ const Product = () => {
         }
     };
 
+    const deleteReview = async (reviewId) => {
+        try {
+            const response = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/review/${productId}/delete-review/${reviewId}`);
+            if (response.data.success) {
+                // Filter out the deleted review from the local state
+                setReviews((prevReviews) => prevReviews.filter((review) => review._id !== reviewId));
+            } else {
+                console.error('Error deleting review:', response.data.message);
+            }
+        } catch (error) {
+            console.error('Error deleting review:', error);
+        }
+    };
+
+
     // Handle the "Load More Reviews" button click
     const handleLoadMore = () => {
         setPage((prevPage) => prevPage + 1);
+    };
+    const handleLoadMoreQuestion = () => {
+        setQuestionPage((prevPage) => prevPage + 1);
     };
 
     // Function to remove a product from the cart
@@ -139,6 +176,11 @@ const Product = () => {
     // Function to handle form submission for posting a review
     const handleSubmitReview = async (e) => {
         e.preventDefault();
+        if (!auth || !auth.user || !auth.user._id) {
+            // Handle the case where auth or auth.user is not defined
+            console.error('User information not available.');
+            return;
+        }
 
         try {
             const response = await axios.post(`https://backend-ecom-9zf7.onrender.com/api/review/${productId}/reviews`, {
@@ -149,7 +191,7 @@ const Product = () => {
             setReviews((prevReviews) => [response.data, ...prevReviews]);
             setRating(0);
             setComment('');
-            navigate(0)
+            fetchReviews();
         } catch (error) {
             console.error('Error submitting review:', error);
         }
@@ -215,7 +257,7 @@ const Product = () => {
                             <div className="lead mb-1">Category: {product?.category?.name}</div>
                             <p className="lead mb-1">Description: {product?.description}</p>
                             <StarRatings
-                                rating={averageRating}
+                                rating={isNaN(averageRating) ? 0 : averageRating}
                                 starRatedColor="gold"
                                 starEmptyColor="lightgray"
                                 starDimension="20px"
@@ -290,7 +332,7 @@ const Product = () => {
             </div>
             <h4 className='text-center mt-2 mb-1'>Our Users Reviews</h4>
             {loading || reviews.length === 0 ? (
-                (<p className='text-center h5'>No Reviews Found</p>)
+                <p className='text-center h5'>No Reviews Found</p>
             ) : (
                 <div className='d-flex flex-row flex-wrap justify-content-center'>
                     {reviews.map((r, i) => (
@@ -298,14 +340,22 @@ const Product = () => {
                             <div className='card-body '>
                                 <h5 className='card-title mb-1'><b>Review: </b>{r.comment}</h5>
                                 <StarRatings
-                                    rating={r.rating}
+                                    rating={r?.rating}
                                     starRatedColor="gold"
                                     starEmptyColor="lightgray"
                                     starDimension="20px"
                                     starSpacing="2px"
                                 />
-                                <p className='card-text mb-1'><b>User:</b> {r.user.name}</p>
-                                <p className='card-text'><b>Created At:</b> {moment(r.createdAt).format('ddd, Do, MMM h:mm A ')}</p>
+                                <p className='card-text mb-1'><b>User:</b> {r?.user?.name}</p>
+                                <p className='card-text'><b>Created At:</b> {moment(r?.createdAt).format('ddd, Do, MMM h:mm A ')}</p>
+                                {auth?.user?.role === 1 && (
+                                    <button
+                                        className='btn btn-danger'
+                                        onClick={() => deleteReview(r?._id)}
+                                    >
+                                        Delete
+                                    </button>
+                                )}
                             </div>
                         </div>
                     ))}
@@ -363,6 +413,11 @@ const Product = () => {
                 </div>
             )
             }
+            <div className='d-flex justify-content-center mt-2'>
+                <button className='btn btn-outline-dark mt-auto' onClick={handleLoadMoreQuestion}>
+                    Load More Questions
+                </button>
+            </div>
 
             <section className="py-2 bg-light">
                 <div className="container px-2 px-lg-5 mt-3">

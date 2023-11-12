@@ -23,6 +23,15 @@ const AdminOrder = () => {
         } catch (error) { console.log(error) }
     }
 
+    const handleDelete = async (orderId) => {
+        try {
+            const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/user/delete-order/${orderId}`);
+            getOrders(); // Refresh the order list after deletion
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         if (auth?.token) getOrders()
 
@@ -36,6 +45,8 @@ const AdminOrder = () => {
             console.log(error);
         }
     }
+
+
 
 
     return (
@@ -65,6 +76,7 @@ const AdminOrder = () => {
                                             <th scope='col'>Payment Method</th>
                                             <th scope='col'>Total Products</th>
                                             <th scope='col'>Grand Total</th>
+                                            <th scope='col'>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -86,6 +98,11 @@ const AdminOrder = () => {
                                             <td>{o?.paymentMethod}</td>
                                             <td>{o?.products?.length}</td>
                                             <td>{o?.total}</td>
+                                            <td>
+                                                <button className='btn btn-danger mx-4 my-2'
+                                                    onClick={() => handleDelete(o._id)}
+                                                >Delete Order</button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

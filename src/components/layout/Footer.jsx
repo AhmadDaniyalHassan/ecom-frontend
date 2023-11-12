@@ -1,9 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react'
 import facebook from '../../assets/facebook.png'
 import whatsapp from '../../assets/whatsapp.png'
 import instagram from '../../assets/instagram.png'
+import { useAuth } from './../../context/auth'
+import axios from 'axios'
 const Footer = () => {
-    // &copy;
+    const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+    const [email, setEmail] = useState('');
+    const [auth, setAuth] = useAuth()
+    const [loading, setLoading] = useState(false);
+    const handleSubscribe = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            // Check if the user is authenticated
+            if (!auth.user) {
+                console.error('User not authenticated.');
+                setLoading(false);
+                // Handle the case where the user is not authenticated, possibly redirect to login
+                return;
+            }
+
+            // Check if the user is already subscribed
+            if (auth.user.newsletterSubscribed) {
+                setSubscriptionStatus({
+                    type: 'info',
+                    message: 'You are already subscribed to the newsletter.',
+                });
+                setLoading(false);
+                return;
+            }
+
+            // Make an API request to subscribe the user
+            const response = await axios.post('https://backend-ecom-9zf7.onrender.com/api/user/subscribe-newsletter', {
+                userId: auth?.user._id,
+            });
+
+            // Assuming your API response contains a success message
+
+            // Update the local auth state to reflect the newsletter subscription status
+            setAuth({
+                ...auth,
+                user: {
+                    ...auth.user,
+                    newsletterSubscribed: true,
+                },
+            });
+            setSubscriptionStatus({ type: 'success', message: response.data.message });
+            setEmail(''); // Clear the email input after successful subscription
+        } catch (error) {
+            console.error('Error subscribing to the newsletter:', error);
+            // Handle the error and possibly display an error message to the user
+            setSubscriptionStatus({ type: 'error', message: 'Error subscribing to the newsletter. Please try again.' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div>
 
@@ -21,15 +75,32 @@ const Footer = () => {
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <div className="content">
-                                            <form>
+                                            <form onSubmit={handleSubscribe}>
                                                 <h2>SUBSCRIBE TO OUR NEWSLETTER</h2>
                                                 <div className="input-group">
-                                                    <input name='email' type="email" className="form-control" autoComplete='on' placeholder="Enter your email" />
+                                                    <input
+                                                        name="email"
+                                                        type="email"
+                                                        className="form-control"
+                                                        autoComplete="on"
+                                                        placeholder="Enter your email"
+                                                        value={email}
+                                                        onChange={(e) => setEmail(e.target.value)}
+                                                    />
                                                     <span className="input-group-btn">
-                                                        <button className="btn btn-secondary" type="submit">Subscribe Now</button>
+                                                        <button className="btn btn-secondary" type="submit" disabled={loading}>
+                                                            {loading ? 'Subscribing...' : 'Subscribe Now'}
+                                                        </button>
                                                     </span>
                                                 </div>
                                             </form>
+
+                                            {/* Display Subscription Status */}
+                                            {subscriptionStatus && (
+                                                <div className={`alert ${subscriptionStatus.type === 'success' ? 'alert-success' : 'alert-danger'}`} role="alert">
+                                                    {subscriptionStatus.message}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

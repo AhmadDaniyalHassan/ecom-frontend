@@ -152,7 +152,26 @@ a.dropdown-item {
   justify-content: center;
   flex-direction: column;
 }
+/* admin product */
 
+.animated-heart {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+/* admin product end */
 .forget-password {
   font-weight: 600;
   font-size: 1rem;

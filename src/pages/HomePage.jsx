@@ -19,6 +19,8 @@ const HomePage = () => {
     const [wishlist, setWishlist] = useWishlist();
     const [loading, setLoading] = useState(false);
     const [productId, setProductId] = useState('')
+    const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [featuredCart, setFeaturedCart] = useState([]); // Separate cart for featured products
 
     const getAllProduct = async () => {
         try {
@@ -31,6 +33,16 @@ const HomePage = () => {
             console.log(error)
         }
     }
+
+    const getFeaturedProducts = async () => {
+        try {
+            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-featured-product");
+            setFeaturedProducts(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     useEffect(() => {
         if (page === 1) return
@@ -207,7 +219,6 @@ const HomePage = () => {
                             </div>
                         ))}
                     </div>
-
                     <div className='m-2 p-2'>
                         {product && product.length < total && radio.length === 0 && (
                             <button className='btn  text-light bg-success

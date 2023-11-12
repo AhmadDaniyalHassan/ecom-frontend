@@ -33,6 +33,14 @@ const ProductAdmin = () => {
             console.log(error);
         }
     };
+    const toggleFeatured = async (productId) => {
+        try {
+            await axios.put(`https://backend-ecom-9zf7.onrender.com/api/product/toggle-featured/${productId}`);
+            getAllProducts();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <Layout>
@@ -73,6 +81,13 @@ const ProductAdmin = () => {
                                             className="btn btn-danger"
                                         >
                                             Delete
+                                        </button>
+                                        &nbsp;
+                                        <button
+                                            onClick={() => toggleFeatured(product._id)}
+                                            className={`btn ${product.isFeatured ? 'btn-secondary' : 'btn-success'}`}
+                                        >
+                                            {product.isFeatured ? 'Unfeature' : 'Feature'}
                                         </button>
                                     </div>
                                 </div>

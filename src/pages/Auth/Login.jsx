@@ -63,7 +63,6 @@ const Login = () => {
               <button className="forget-password btn btn-secondary mt-2"
                 onClick={() => { navigate("/forgetpassword") }}>forgot password</button>
             </div>
-
           </form>
         </div>
       </div>
