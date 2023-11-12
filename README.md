@@ -46,10 +46,9 @@ This repository contains the source code and documentation for an Ecommerce webs
 
 To get a local copy of the project up and running, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/AhmadDaniyalHassan/ecomm.git`
+1. Clone the repository: `git clone https://github.com/AhmadDaniyalHassan/ecomm-frontend.git`
 2. Navigate to the project directory: `cd ecomm`
-3. Install the dependencies for both the backend and frontend:
-   - Frontend: `cd frontend && npm install`
+3. Install the dependencies for the frontend:
 4. Start the development servers:
    - Backend: `npm run dev` (runs the server on port 8000)
    - Frontend: `npm start` (runs the React development server on port 5173)
