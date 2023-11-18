@@ -29,7 +29,7 @@ const HomePage = () => {
     const getAllProduct = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
+            const { data } = await axios.get(`http://localhost:8000/api/product/product-list/${page}`)
             setLoading(false)
             setProduct(data?.products)
         } catch (error) {
@@ -40,7 +40,7 @@ const HomePage = () => {
 
     const getFeaturedProducts = async () => {
         try {
-            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-featured-product");
+            const { data } = await axios.get("http://localhost:8000/api/product/get-featured-product");
             setFeaturedProducts(data);
         } catch (error) {
             console.log(error);
@@ -71,7 +71,7 @@ const HomePage = () => {
     const loadMore = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
+            const { data } = await axios.get(`http://localhost:8000/api/product/product-list/${page}`)
             setLoading(false)
             setProduct([...product, ...data?.products])
 
@@ -82,7 +82,7 @@ const HomePage = () => {
     }
     const getTotal = async () => {
         try {
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-count`)
+            const { data } = await axios.get(`http://localhost:8000/api/product/product-count`)
             setTotal(data?.total)
         } catch (error) {
             console.log(error)
@@ -97,7 +97,7 @@ const HomePage = () => {
 
     const getCategory = async () => {
         try {
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/category/get-category`)
+            const { data } = await axios.get(`http://localhost:8000/api/category/get-category`)
             if (data?.success) {
                 setCategory(data?.category)
             }
@@ -175,7 +175,7 @@ const HomePage = () => {
 
     const filterProduct = async () => {
         try {
-            const { data } = await axios.post(`https://backend-ecom-9zf7.onrender.com/api/product/filter-product`, { checked, radio })
+            const { data } = await axios.post(`http://localhost:8000/api/product/filter-product`, { checked, radio })
             setProduct(data?.product)
 
         } catch (error) {
@@ -214,13 +214,12 @@ const HomePage = () => {
                     <div style={{ justifyContent: 'center' }} className='d-flex flex-wrap'>
                         {product?.map((pdata) => (
                             <div className='card m-2 ' style={{ width: "15.7rem", height: '23rem' }} key={pdata._id}>
-                                <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.image} className='card-img-top' alt={pdata.name} />
+                                <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.images[0]} className='card-img-top' alt={pdata.name} />
                                 <div className='card-body p-0'>
                                     <h5 className='card-title mb-1' style={{ marginLeft: "9px" }}><b>Name: </b>{pdata?.name}</h5>
                                     <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Info: </b>{pdata?.description.substring(0, 25)}...</p>
                                     <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Price: </b> {pdata?.price}</p>
                                     <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Category: </b> {pdata?.category?.name}</p>
-
                                     <img
                                         onClick={() => handleWishlistClick(pdata)}
                                         src={wishlist.some((item) => item._id === pdata._id) ? wishlistHeartFill : wishlists}
@@ -244,18 +243,18 @@ const HomePage = () => {
                                     {cart.find(item => item._id === pdata._id) ? (
                                         // Render the "Add To Cart" button if the condition is true
 
-                                        <button style={{ fontSize: "85%", overflow: 'hidden' }} className='btn btn-outline-dark mt-auto' onClick={() => removeFromCart(pdata._id)}>Remove From Cart</button>
+                                        <button style={{ fontSize: "75%", overflow: 'hidden' }} className='btn btn-outline-dark mt-auto' onClick={() => removeFromCart(pdata._id)}>Remove From Cart</button>
                                     ) : (
                                         // Render the "Remove" button if the condition is false
                                         <button
                                             onClick={() => handleAddToCart(pdata)}
                                             className='btn btn-outline-dark mt-auto'
-                                            style={{ fontSize: "85%", overflow: 'hidden' }}
+                                            style={{ fontSize: "75%", overflow: 'hidden' }}
                                         >
                                             {cart.find(item => item._id === pdata._id)} Add To Cart
                                         </button>
                                     )}
-                                    <Link to={`/single-product/${pdata.slug}`} className='btn btn-primary mt-auto ' style={{ fontSize: "85%", overflow: 'hidden', display: 'inline-block' }}>Details</Link>
+                                    <Link to={`/single-product/${pdata.slug}`} className='btn btn-primary mt-auto ' style={{ fontSize: "75%", overflow: 'hidden', display: 'inline-block' }}>Details</Link>
                                 </div>
                             </div>
                         ))}

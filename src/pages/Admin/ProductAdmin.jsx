@@ -12,7 +12,7 @@ const ProductAdmin = () => {
     // Get all products
     const getAllProducts = async () => {
         try {
-            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-product");
+            const { data } = await axios.get("http://localhost:8000/api/product/get-product");
             setProducts(data?.product);
         } catch (error) {
             console.log(error);
@@ -26,7 +26,7 @@ const ProductAdmin = () => {
 
     const handleDelete = async (productId) => {
         try {
-            const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/product/delete-product/${productId}`);
+            const { data } = await axios.delete(`http://localhost:8000/api/product/delete-product/${productId}`);
             console.log(data);
             getAllProducts();
         } catch (error) {
@@ -35,7 +35,7 @@ const ProductAdmin = () => {
     };
     const toggleFeatured = async (productId) => {
         try {
-            await axios.put(`https://backend-ecom-9zf7.onrender.com/api/product/toggle-featured/${productId}`);
+            await axios.put(`http://localhost:8000/api/product/toggle-featured/${productId}`);
             getAllProducts();
         } catch (error) {
             console.log(error);
@@ -55,13 +55,13 @@ const ProductAdmin = () => {
                         <AdminMenu />
                     </div>
                     <div className="col-md-9">
-                    <h2 className="text-center">Admin All Products</h2>
+                        <h2 className="text-center">Admin All Products</h2>
                         <div className="d-flex flex-wrap justify-content-center p-2">
                             {products?.map((product) => (
                                 <div key={product._id} className="card m-1 card-admin" style={{ width: "100%", maxWidth: "16rem" }}>
                                     <img
                                         style={{ width: "100%", height: "10rem", padding: '4px', borderRadius: 10, objectFit: "cover" }}
-                                        src={product.image[0]}
+                                        src={product?.images[0]}
                                         className="card-img-top"
                                         alt={product.name}
                                     />
@@ -76,7 +76,7 @@ const ProductAdmin = () => {
                                             style={{ textDecoration: "none" }}
                                             to={`/dashboard/admin/update-product/${product.slug}`}
                                         >
-                                            <button style={{ marginLeft: '4px', marginRight: "10px" }} className="btn btn-primary">Edit</button>
+                                            <button style={{ marginLeft: '4px', marginRight: "5px" }} className="btn btn-primary">Edit</button>
                                         </Link>
                                         <button
                                             onClick={() => handleDelete(product._id)}

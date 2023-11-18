@@ -48,7 +48,7 @@ const Wishlist = () => {
                     {uniqueWishlist.map((item, index) => (
                         <div key={index} style={{ width: "25%", backgroundColor: '#E8E8E8', borderRadius: "20px" }} className='row mb-2 p-2 card flex-row'>
                             {/* <div className='card m-2' style={{ width: "19rem", height: '24.5rem' }} key={index}> */}
-                            <img style={{ height: "11rem", width: "19.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={item.image} className="card-img-top" alt={item.name} />
+                            <img style={{ height: "11rem", width: "19.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={item.images} className="card-img-top" alt={item.name} />
                             <h5 className="card-title text-center m-2">Name: {item.name}</h5>
                             <p className="card-text text-center m-2">Description: {item.description}</p>
                             <p className="card-text text-center m-2">Price: {item.price}</p>

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/auth';
 import moment from 'moment';
 import StarRatings from 'react-star-ratings';
+import { Carousel } from 'react-responsive-carousel';
 
 const Product = () => {
     const [api, setApi] = useState([]);
@@ -29,9 +30,13 @@ const Product = () => {
     const [limit, setLimit] = useState(5);
     const [title, setTitle] = useState('');
     const [questionPage, setQuestionPage] = useState(1);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const navigate = useNavigate();
     const [auth] = useAuth();
+    const handleImageClick = (index) => {
+        setCurrentImageIndex(index);
+    };
 
     // Fetch reviews and products on component mount
     useEffect(() => {
@@ -58,7 +63,7 @@ const Product = () => {
                 return;
             }
 
-            const response = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/review/${productId}/get-reviews`, {
+            const response = await axios.get(`http://localhost:8000/api/review/${productId}/get-reviews`, {
                 params: { page: page },
             });
             setReviews(response?.data?.reviews);
@@ -76,7 +81,7 @@ const Product = () => {
     // Function to fetch questions
     const fetchQuestions = async () => {
         try {
-            const response = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/review/get-questions/${productId}`,
+            const response = await axios.get(`http://localhost:8000/api/review/get-questions/${productId}`,
                 {
                     params: { questionPage: questionPage },
                 });
@@ -95,7 +100,7 @@ const Product = () => {
             return;
         }
         try {
-            const response = await axios.post(`https://backend-ecom-9zf7.onrender.com/api/review/${productId}/post-questions`, {
+            const response = await axios.post(`http://localhost:8000/api/review/${productId}/post-questions`, {
                 question,
                 title,
                 userId: auth?.user._id,
@@ -112,7 +117,7 @@ const Product = () => {
     const updateAnswer = async (questionId, answer) => {
         try {
             const response = await axios.put(
-                `https://backend-ecom-9zf7.onrender.com/api/review/${productId}/ans-questions/${questionId}`,
+                `http://localhost:8000/api/review/${productId}/ans-questions/${questionId}`,
                 { answer }
             );
             setQuestions((prevQuestions) => {
@@ -130,7 +135,7 @@ const Product = () => {
 
     const deleteQuestion = async (questionId) => {
         try {
-            const response = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/review/${productId}/delete-questions/${questionId}`);
+            const response = await axios.delete(`http://localhost:8000/api/review/${productId}/delete-questions/${questionId}`);
             if (response.data.success) {
                 // Filter out the deleted question from the local state
                 setQuestions((prevQuestions) => prevQuestions.filter((question) => question._id !== questionId));
@@ -144,7 +149,7 @@ const Product = () => {
 
     const deleteReview = async (reviewId) => {
         try {
-            const response = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/review/${productId}/delete-review/${reviewId}`);
+            const response = await axios.delete(`http://localhost:8000/api/review/${productId}/delete-review/${reviewId}`);
             if (response.data.success) {
                 // Filter out the deleted review from the local state
                 setReviews((prevReviews) => prevReviews.filter((review) => review._id !== reviewId));
@@ -213,8 +218,9 @@ const Product = () => {
     // Function to fetch the product and related products
     const getAllProduct = async () => {
         try {
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/single-product/${params.slug}`);
+            const { data } = await axios.get(`http://localhost:8000/api/product/single-product/${params.slug}`);
             setProduct(data?.product);
+            console.log(data?.product)
             getSimilarProduct(data?.product?._id, data?.product.category._id);
             setProductId(data?.product?._id);
         } catch (error) {
@@ -254,7 +260,7 @@ const Product = () => {
     // Function to get similar products
     const getSimilarProduct = async (pid, cid) => {
         try {
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/similar-product/${pid}/${cid}`);
+            const { data } = await axios.get(`http://localhost:8000/api/product/similar-product/${pid}/${cid}`);
             setRelatedProduct(data?.products);
         } catch (error) {
             console.log(error, 'from similar products');
@@ -262,13 +268,55 @@ const Product = () => {
     };
     return (
         <Layout title="Product-Single - Ecom" >
-            <button style={{ marginTop: 65, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <button style={{ marginTop: 15, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
             <section className="py-2">
                 <div className="container px-4 px-lg-5 my-5">
                     <div className="row gx-4 gx-lg-5 align-items-start">
-                        <div className="col-md-5"><img className="card-img-top mb-5 mb-md-0" style={{ borderRadius: "20px" }} src={product?.image} alt={product?.name} /></div>
-                        <div className="col-md-6">
-                            <h2 className="display-8 fw-bolder mb-1"><span className='text-muted h3'>Name:</span> {product?.name}</h2>
+                        <div className="col-md-5">
+                            {product?.images && product.images.length > 0 && (
+                                <img
+                                    className={`card-img-top mb-5 mb-md-0`}
+                                    style={{
+                                        borderRadius: "20px",
+                                        transform: `scale(${currentImageIndex === 0 ? 1.25 : 1.30})`, // Increase size on hover
+                                        transition: 'transform 0.5s',
+                                        marginLeft: '40px',
+                                        padding: '1rem'
+
+                                    }}
+                                    src={`${product.images[currentImageIndex].replace("upload/", "upload/q_auto,w_500,h_450/")}`}
+                                    alt={`${product.name}-image-${currentImageIndex}`}
+                                />
+                            )}
+                        </div>
+
+                        <div className="col-md-5">
+                            {product?.images && product.images.length > 0 ? (
+                                <div style={{ position: 'relative', left: '-38rem', top: '-25px' }}>
+                                    {product.images.map((imageUrl, index) => (
+                                        <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
+                                            <img
+                                                className={`card-img-top mb-5 mb-md-0 ${index === currentImageIndex ? 'active-image' : 'small-image'}`}
+                                                style={{
+                                                    borderRadius: "20px",
+                                                    cursor: 'pointer',
+                                                    transition: 'transform 0.3s',
+                                                }}
+                                                src={`${imageUrl.replace("upload/", "upload/q_auto,w_500,h_450/")}`}
+                                                alt={`${product.name}-image-${index}`}
+                                                onClick={() => handleImageClick(index)}
+                                                onMouseEnter={() => setCurrentImageIndex(index)} // Add this line for hover effect
+                                            />
+
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No images available</p>
+                            )}
+                        </div>
+                        <div className="col-md-6 mt-5">
+                            <h2 className="display-8 fw-bolder mb-1 "><span className='text-muted h3'>Name:</span> {product?.name}</h2>
                             <div className="lead mb-1">Category: {product?.category?.name}</div>
                             <p className="lead mb-1">Description: {product?.description}</p>
                             <StarRatings
@@ -433,7 +481,6 @@ const Product = () => {
                     ))}
                 </div>
             )}
-
             {!loading && questions.length > 0 && (
                 <div className='d-flex justify-content-center mt-2'>
                     <button className='btn btn-outline-dark mt-auto' onClick={handleLoadMoreQuestion}>
@@ -441,15 +488,13 @@ const Product = () => {
                     </button>
                 </div>
             )}
-
-
             <section className="py-2 bg-light">
                 <div className="container px-2 px-lg-5 mt-3">
                     <h2 className="fw-bolder mb-4 text-center">Related products</h2>
                     <div style={{ justifyContent: 'center' }} className='d-flex flex-wrap'>
                         {relatedProduct?.map((pdata) => (
                             <div className='card m-2 ' style={{ width: "15.7rem", height: '21.9rem' }} key={pdata._id}>
-                                <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.image} className='card-img-top' alt={pdata.name} />
+                                <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.images[0]} className='card-img-top' alt={pdata.name} />
                                 <div className='card-body p-0'>
                                     <h5 className='card-title mb-1' style={{ marginLeft: "9px" }}><b>Name: </b>{pdata?.name}</h5>
                                     <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Info: </b>{pdata?.description.substring(0, 25)}...</p>

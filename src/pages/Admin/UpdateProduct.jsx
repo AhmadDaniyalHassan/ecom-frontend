@@ -12,13 +12,13 @@ const UpdateProduct = () => {
     const params = useParams()
 
     const [categories, setCategories] = useState([])
-    const [image, setImage] = useState('')
+    const [images, setImages] = useState([])
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [in_stock, setIn_stock] = useState(Boolean)
     const [category, setCategory] = useState('')
-    const [previmg, setPrevImg] = useState('')
+    const [prevImages, setPrevImages] = useState([]);
     // const [review, setReview] = useState('')
     const [id, setId] = useState('')
 
@@ -31,7 +31,6 @@ const UpdateProduct = () => {
                 setName(data?.product.name)
                 setDescription(data?.product.description)
                 setPrice(data?.product.price)
-                // setImage(data?.product.image)
                 setCategory(data?.product.category._id)
                 setId(data?.product._id)
                 setPrevImg(data?.product.image[0])
@@ -71,7 +70,7 @@ const UpdateProduct = () => {
             formData.append('name', name)
             formData.append('description', description)
             formData.append('price', price)
-            image && formData.append('image', image)
+            images && formData.append('images', images)
             formData.append('category', category)
             formData.append('in_stock', in_stock)
             // formData.append('rating', rating)
@@ -81,11 +80,6 @@ const UpdateProduct = () => {
             if (!data) {
                 console.log(data)
                 console.log('Updated Success')
-                // navigate('/dashboard/admin/products')
-                // setTimeout(() => {
-                // setInterval(() => {
-                //     navigate('/dashboard/admin/products')
-                // }, 2500);
             }
         } catch (error) {
             console.log(error)
@@ -119,18 +113,22 @@ const UpdateProduct = () => {
                             </Select>
                             <div className='mb-3'>
                                 <label className='btn btn-outline-secondary col-md-12'>
-                                    {image ? image.name : "Upload Product Image"}
-                                    <input type='file' name='image' accept='images/*' hidden onChange={(e) => setImage(e.target.files[0])} />
+                                    {images.length > 0 ? `${images.length} files selected` : 'Upload Product Images'}
+                                    <input type='file' name='images' accept='images/*' hidden onChange={(e) => setImages(e.target.files)} multiple />
                                 </label>
                             </div>
                             <div className='mb-3'>
-                                {image ? (
+                                {images.length > 0 ? (
                                     <div className='text-center'>
-                                        <img src={URL.createObjectURL(image)} alt="product image" className='img img-responsive' height={'140px'}></img>
+                                        {Array.from(images).map((file, index) => (
+                                            <img key={index} src={URL.createObjectURL(file)} alt={`product image ${index + 1}`} className='img img-responsive' height='150px'></img>
+                                        ))}
                                     </div>
                                 ) : (
                                     <div className='text-center'>
-                                        <img src={previmg} alt="product image" className='img img-responsive' height={'120px'}></img>
+                                        {prevImages.map((image, index) => (
+                                            <img key={index} src={image} alt={`product image ${index + 1}`} className='img img-responsive' height='150px'></img>
+                                        ))}
                                     </div>
                                 )}
                             </div>

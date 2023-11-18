@@ -192,7 +192,7 @@ const AddToCart = () => {
                     >
                       <img
                         style={{ padding: '2px', width: '14rem', marginTop: '2px', borderRadius: '10px' }}
-                        src={prod.image}
+                        src={prod.images}
                         className="card-img-top"
                         alt={prod.name}
                       />

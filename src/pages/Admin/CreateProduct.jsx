@@ -10,12 +10,13 @@ const CreateProduct = () => {
     const navigate = useNavigate()
 
     const [categories, setCategories] = useState([])
-    const [image, setImage] = useState('')
+    const [images, setImages] = useState([])
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [inStock, setIn_Stock] = useState(Boolean)
     const [category, setCategory] = useState('')
+    const [loading, setLoading] = useState(false); // Added loading state
 
 
     const getAllCategory = async () => {
@@ -38,25 +39,31 @@ const CreateProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            setLoading(true); // Set loading to true when the form is submitted
             const formData = new FormData()
             formData.append('name', name)
             formData.append('description', description)
             formData.append('price', price)
-            formData.append('image', image)
+            formData.append('images', images)
             formData.append('category', category)
             formData.append('in_stock', inStock)
+            for (const file of images) {
+                formData.append('images', file);
+            }
 
 
-            const { data } = axios.post('https://backend-ecom-9zf7.onrender.com/api/product/create-product', formData)
+            const { data } = axios.post('http://localhost:8000/api/product/create-product', formData)
             if (data?.success) {
             } else {
                 timeout = setTimeout(() => {
                     navigate("/dashboard/admin/products");
                     clearTimeout(timeout)
-                }, 1450);
+                }, 1400);
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false); // Set loading back to false after the request is complete
         }
     }
     return (
@@ -82,17 +89,22 @@ const CreateProduct = () => {
                             </Select>
                             <div className='mb-3'>
                                 <label className='btn btn-outline-secondary col-md-12'>
-                                    {image ? image.name : "Upload Product Image"}
-                                    <input type='file' name='image' accept='images/*' hidden onChange={(e) => setImage(e.target.files[0])} />
+                                    {images.length > 0 ? `${images.length} files selected` : "Upload Product Images"}
+                                    <input type='file' name='images' accept='images/*' hidden onChange={(e) => setImages(e.target.files)} multiple />
                                 </label>
                             </div>
+
                             <div className='mb-3'>
-                                {image && (
+                                {images.length > 0 && (
                                     <div className='text-center'>
-                                        <img src={URL.createObjectURL(image)} alt="product image" className='img img-responsive' height='150px'></img>
+                                        {Array.from(images).map((file, index) => (
+                                            <img key={index} src={URL.createObjectURL(file)} alt={`product image ${index + 1}`} className='img img-responsive' height='150px'></img>
+                                        ))}
                                     </div>
                                 )}
                             </div>
+
+
                             <div className='mb-3'>
                                 <input type='text' alt='name' className='form-control' placeholder='Enter Product Name' value={name} onChange={(e) => setName(e.target.value)} />
                             </div>
@@ -110,7 +122,9 @@ const CreateProduct = () => {
                                 </Select>
                             </div>
                             <div className='mb-3'>
-                                <button type='submit' className='btn btn-primary'>Create Product</button>
+                                <button type='submit' className='btn btn-primary' disabled={loading}>
+                                    {loading ? 'Loading...' : 'Create Product'}
+                                </button>
                             </div>
                         </form>
                     </div>

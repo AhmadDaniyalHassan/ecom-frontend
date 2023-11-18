@@ -340,7 +340,15 @@ body {
 .radio-price {
   margin-left: 1.2rem;
 }
+.active-image {
+  width: 7rem;
+  margin: .5rem;
+}
+.small-image {
+  width: 7rem;
+  margin: .5rem;
 
+}
 /* searchbar styling down here*/
 
 /* search bar styling above */

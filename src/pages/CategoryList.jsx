@@ -101,7 +101,7 @@ const CategoryList = () => {
                 <div style={{ justifyContent: 'center' }} className='d-flex flex-wrap'>
                     {products?.map((pdata) => (
                         <div className='card m-2 ' style={{ width: "15.7rem", height: '23rem' }} key={pdata._id}>
-                            <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.image} className='card-img-top' alt={pdata.name} />
+                            <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.images[0]} className='card-img-top' alt={pdata.name} />
                             <div className='card-body p-0'>
                                 <h5 className='card-title mb-1' style={{ marginLeft: "9px" }}><b>Name: </b>{pdata?.name}</h5>
                                 <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Info: </b>{pdata?.description.substring(0, 25)}...</p>
