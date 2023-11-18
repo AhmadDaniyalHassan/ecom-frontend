@@ -12,7 +12,7 @@ const ProductAdmin = () => {
     // Get all products
     const getAllProducts = async () => {
         try {
-            const { data } = await axios.get("http://localhost:8000/api/product/get-product");
+            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-product");
             setProducts(data?.product);
         } catch (error) {
             console.log(error);
@@ -26,7 +26,7 @@ const ProductAdmin = () => {
 
     const handleDelete = async (productId) => {
         try {
-            const { data } = await axios.delete(`http://localhost:8000/api/product/delete-product/${productId}`);
+            const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/product/delete-product/${productId}`);
             console.log(data);
             getAllProducts();
         } catch (error) {
@@ -35,7 +35,7 @@ const ProductAdmin = () => {
     };
     const toggleFeatured = async (productId) => {
         try {
-            await axios.put(`http://localhost:8000/api/product/toggle-featured/${productId}`);
+            await axios.put(`https://backend-ecom-9zf7.onrender.com/api/product/toggle-featured/${productId}`);
             getAllProducts();
         } catch (error) {
             console.log(error);

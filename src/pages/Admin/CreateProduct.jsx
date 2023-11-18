@@ -52,7 +52,7 @@ const CreateProduct = () => {
             }
 
 
-            const { data } = axios.post('http://localhost:8000/api/product/create-product', formData)
+            const { data } = axios.post('https://backend-ecom-9zf7.onrender.com/api/product/create-product', formData)
             if (data?.success) {
             } else {
                 timeout = setTimeout(() => {

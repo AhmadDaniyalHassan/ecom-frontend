@@ -29,7 +29,7 @@ const HomePage = () => {
     const getAllProduct = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`http://localhost:8000/api/product/product-list/${page}`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
             setLoading(false)
             setProduct(data?.products)
         } catch (error) {
@@ -40,7 +40,7 @@ const HomePage = () => {
 
     const getFeaturedProducts = async () => {
         try {
-            const { data } = await axios.get("http://localhost:8000/api/product/get-featured-product");
+            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-featured-product");
             setFeaturedProducts(data);
         } catch (error) {
             console.log(error);
@@ -71,7 +71,7 @@ const HomePage = () => {
     const loadMore = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`http://localhost:8000/api/product/product-list/${page}`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
             setLoading(false)
             setProduct([...product, ...data?.products])
 
@@ -82,7 +82,7 @@ const HomePage = () => {
     }
     const getTotal = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:8000/api/product/product-count`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-count`)
             setTotal(data?.total)
         } catch (error) {
             console.log(error)
@@ -97,7 +97,7 @@ const HomePage = () => {
 
     const getCategory = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:8000/api/category/get-category`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/category/get-category`)
             if (data?.success) {
                 setCategory(data?.category)
             }
@@ -175,7 +175,7 @@ const HomePage = () => {
 
     const filterProduct = async () => {
         try {
-            const { data } = await axios.post(`http://localhost:8000/api/product/filter-product`, { checked, radio })
+            const { data } = await axios.post(`https://backend-ecom-9zf7.onrender.com/api/product/filter-product`, { checked, radio })
             setProduct(data?.product)
 
         } catch (error) {
