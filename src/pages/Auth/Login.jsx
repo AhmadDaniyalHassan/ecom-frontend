@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
-
+import loginimage from '../../assets/loginimage.webp'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -43,27 +43,63 @@ const Login = () => {
   return (
     <>
       <Header />
-      <div className='login signup-bg mt-4'>
-        <div className='login-wrapper'>
-          <h3 className='text-center mb-4'>Login Page</h3>
-          <form onSubmit={handleSubmit}>
-
-            <div className="mb-3">
-              <input required value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Enter Your Email' type="email" className="form-control" />
-              <div className="form-text"></div>
+      <div className='login mt-4'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-6'>
+              {/* Left Column for Image */}
+              <img
+                src={loginimage}
+                alt='Your Image'
+                className='img-fluid rounded'
+              />
             </div>
-            <div className="mb-3">
-              <input required value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Enter Your Password' type="password" className="form-control" />
-              <div className="form-text"></div>
+            <div className='col-md-6'>
+              {/* Right Column for Login Form */}
+              <div className='login-wrapper'>
+                <h3 className='text-center mb-4'>Login Page</h3>
+                <form onSubmit={handleSubmit}>
+                  <div className='mb-3'>
+                    <input
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder='Enter Your Email'
+                      type='email'
+                      className='form-control'
+                    />
+                    <div className='form-text'></div>
+                  </div>
+                  <div className='mb-3'>
+                    <input
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder='Enter Your Password'
+                      type='password'
+                      className='form-control'
+                    />
+                    <div className='form-text'></div>
+                  </div>
+                  <div className='text-center'>
+                    <button type='submit' className='btn btn-primary'>
+                      Login
+                    </button>
+                  </div>
+                  <div className='text-center'>
+                    <button
+                      className='forget-password btn btn-secondary mt-2'
+                      onClick={() => {
+                        navigate('/forgetpassword');
+                      }}
+                    >
+                      forgot password
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <div className='text-center'>
-              <button type="submit" className="btn btn-primary">Login</button>
-            </div>
-            <div className='text-center'>
-              <button className="forget-password btn btn-secondary mt-2"
-                onClick={() => { navigate("/forgetpassword") }}>forgot password</button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
       <Footer />

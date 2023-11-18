@@ -62,14 +62,14 @@ const CreateProduct = () => {
     return (
 
         <Layout title='Create Product'>
-            <button style={{ marginTop: 15, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
-            <div className='container-fluid m-3 p-3'>
+            <button style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <div className='container-fluid m-1 p-3'>
                 <div className="row">
-                    <div className="col-md-2 margin-admin">
+                    <div className="col-md-2">
                         <AdminMenu />
                     </div>
                     <div className='col-md-8'>
-                        <h3 className="text-center">Create Product</h3>
+                        <h2 className="text-center">Add Products</h2>
                         <div className='m-1'></div>
                         <form onSubmit={handleSubmit}>
                             <Select bordered={false}

@@ -94,20 +94,25 @@ const UpdateProduct = () => {
     }
     return (
         <Layout title='Update Product'>
-            <button style={{ marginTop: 15, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
-            <div className='container-fluid m-3 p-3'>
+            <button style={{ marginTop: 60, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <div className='container-fluid m-2 p-2'>
                 <div className='row'>
                     <div className='col-md-3 mt-2'>
                         <AdminMenu />
                     </div>
                     <div className='col-md-9'>
-                        <h3>Update Product</h3>
+                        <h2 className="text-center">Update Product</h2>
                         <div className='m-1'></div>
                         <form onSubmit={handleSubmit}>
-                            <Select bordered={false}
+                            <Select
+                                bordered={false}
                                 placeholder="Select a Category"
                                 size='large'
-                                showSearch className='form-select mb-3' onChange={(value) => { setCategory(value) }} value={category} >
+                                showSearch
+                                className='form-select mb-3'
+                                onChange={(value) => { setCategory(value) }}
+                                value={category}
+                            >
                                 {categories?.map((item) => (
                                     <Option value={item._id} key={item._id}>{item.name}</Option>
                                 ))}
@@ -125,8 +130,7 @@ const UpdateProduct = () => {
                                     </div>
                                 ) : (
                                     <div className='text-center'>
-                                        <img src={previmg}
-                                            alt="product image" className='img img-responsive' height={'120px'}></img>
+                                        <img src={previmg} alt="product image" className='img img-responsive' height={'120px'}></img>
                                     </div>
                                 )}
                             </div>
@@ -140,7 +144,15 @@ const UpdateProduct = () => {
                                 <input type='number' alt='price' className='form-control' placeholder='Enter Product Price' value={price} onChange={(e) => setPrice(e.target.value)} />
                             </div>
                             <div className='mb-3'>
-                                <Select bordered={false} placeholder="Select Shipping Status" size='large' showSearch className='form-select mb-3' onChange={(value) => { setIn_stock(value) }} value={in_stock ? true : false} >
+                                <Select
+                                    bordered={false}
+                                    placeholder="Select Shipping Status"
+                                    size='large'
+                                    showSearch
+                                    className='form-select mb-3'
+                                    onChange={(value) => { setIn_stock(value) }}
+                                    value={in_stock ? true : false}
+                                >
                                     <Option value={true}>Yes Available</Option>
                                     <Option value={false}>Not Available</Option>
                                 </Select>

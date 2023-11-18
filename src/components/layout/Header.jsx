@@ -9,7 +9,7 @@ import { Badge } from "antd"
 import { useSelector } from "react-redux"
 import SearchInput from "../Form/SearchInput"
 import useCategory from "../../hooks/useCategory"
-import wishlists from '../../assets/wishlists.svg'
+import wishlistsCopy from '../../assets/wishlists-copy.svg'
 import carts from '../../assets/cart.svg'
 
 
@@ -36,7 +36,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary" >
+      <nav className="navbar navbar-expand-lg bg-body-tertiary " >
         <div className=" container-fluid">
           <button className="navbar-toggler"
             type="button"
@@ -47,14 +47,14 @@ const Header = () => {
             aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
-          <div className="d-flex flex-row nav-bar-cart-wish">
+          <div className="d-flex flex-row nav-bar-cart-wish ">
             <li className="text-center nav-item nav-bar-cart-wish" style={{ marginTop: '1.7px', listStyle: 'none', marginRight: '10px' }}>
               <Badge style={{ marginRight: '12px', marginTop: '6px', backgroundColor: 'black' }} count={wishlist.length} showZero className="cart-badge">
                 <NavLink to={"/wishlist"}
                   className="nav-link"
                   alt="Wish-List"
                 >
-                  <img src={wishlists} alt="wishlist" width="20px" height="20px" />
+                  <img src={wishlistsCopy} alt="wishlist" width="20px" height="20px" />
                 </NavLink>
               </Badge>
             </li>
@@ -157,7 +157,7 @@ const Header = () => {
                     className="nav-link"
                     alt="Wish-List"
                   >
-                    <img src={wishlists} alt="wishlist" width="20px" height="20px" />
+                    <img src={wishlistsCopy} alt="wishlist" width="20px" height="20px" />
                   </NavLink>
                 </Badge>
               </li>
@@ -182,62 +182,3 @@ const Header = () => {
 }
 
 export default Header
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// <form className="d-flex" role="search">
-//   <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-//   <button className="btn btn-outline-success" type="submit">Search</button>
-// </form>
-
-
-//   {!auth.user ? (<></>) : (<></>)
-
-// }
-
-//   <li className="nav-item">
-//   <NavLink to={"/login"}
-//    className="nav-link"
-//     alt="login-page"
-//      >Login</NavLink>
-// </li>
-
-// < li className = "nav-item" >
-//   <NavLink to={"/cart"}
-//     className="nav-link"
-//     alt="Cart-page"
-//   >Add To Cart(0)</NavLink>
-//     </li >
-//   <li className="nav-item">
-//   <NavLink to={"/login"}
-//    onClick={handleLogout}
-//     className="nav-link"
-//     alt="logout-page"
-//     >logout</NavLink>
-// </li>
-// <li className="nav-item">
-//   <NavLink to={"/signup"}
-//    className="nav-link"
-//     alt="signup-page"
-//      >Signup</NavLink>
-// </li>

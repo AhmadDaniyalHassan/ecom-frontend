@@ -4,21 +4,27 @@ import { NavLink } from 'react-router-dom'
 const AdminMenu = () => {
     return (
         <>
-            <div className='text-center'>
+            <div className='text-center mt-3'>
                 <ul className="list-group">
                     <h4>Admin Panel</h4>
                     <NavLink to="/dashboard/admin/create-category" className="list-group-item list-group-action">
-                        Create Category</NavLink>
+                        Create Category
+                    </NavLink>
                     <NavLink to="/dashboard/admin/create-product" className="list-group-item list-group-action">
-                        Create Product</NavLink>
+                        Create Product
+                    </NavLink>
                     <NavLink to="/dashboard/admin/products" className="list-group-item list-group-action">
-                        Products</NavLink>
+                        Products
+                    </NavLink>
                     <NavLink to="/dashboard/admin/orders" className="list-group-item list-group-action">
-                        Orders</NavLink>
+                        Orders
+                    </NavLink>
                     <NavLink to="/dashboard/admin/show-user" className="list-group-item list-group-action">
-                        Users</NavLink>
+                        Users
+                    </NavLink>
                     <NavLink to="/dashboard/admin/misc" className="list-group-item list-group-action">
-                        Misc</NavLink>
+                        Misc
+                    </NavLink>
                 </ul>
             </div>
         </>

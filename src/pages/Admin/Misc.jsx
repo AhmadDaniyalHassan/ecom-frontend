@@ -9,7 +9,7 @@ const Misc = () => {
     return (
         <>
             <Layout>
-                <button style={{ marginTop: 15, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+                <button style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
                 <div className='container-fluid m-3 p-3'>
                     <div className="row">
                         <div className="col-md-2 margin-admin">

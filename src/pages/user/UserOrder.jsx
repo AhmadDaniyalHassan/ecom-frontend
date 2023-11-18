@@ -29,7 +29,7 @@ const Order = () => {
     return (
         <Layout title='User-Order' description='Order Page'>
             <button
-                style={{ marginTop: 15, marginLeft: 15, marginBottom: 15 }}
+                style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }}
                 className='btn btn-primary'
                 onClick={() => navigate(-1)}
             >

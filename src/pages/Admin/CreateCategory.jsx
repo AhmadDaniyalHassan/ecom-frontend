@@ -22,8 +22,8 @@ const CreateCategory = () => {
 
             const { data } = await axios.post('https://backend-ecom-9zf7.onrender.com/api/category/create-category', { name })
             if (data?.success) {
-                getAllCategory()
-                // setName('')
+                setName(''); // Clear the input field
+                getAllCategory();
 
             }
         } catch (error) {
@@ -79,19 +79,25 @@ const CreateCategory = () => {
 
     return (
         <Layout title='Create Category'>
-            <button style={{ marginTop: 15, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <button
+                style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }}
+                className='btn btn-primary'
+                onClick={() => navigate(-1)}
+            >
+                Go Back
+            </button>
 
-            <div className='container-fluid m-3 p-3'>
+            <div className='container-fluid m-1 p-3'>
                 <div className="row">
-                    <div className="col-md-2 margin-admin">
+                    <div className="col-md-2">
                         <AdminMenu />
                     </div>
-                    <div className='col-md-8 '>
-                        <h3 className="text-center mb-0 mt-3 mx--5 ">Manage Category</h3>
-                        <div className='p-2 w-50 mt-3'>
+                    <div className='col-md-8'>
+                        <h2 className="text-center">Create Category</h2>
+                        <div className='p-2 mt-3 mb-1'>
                             <CategoryForm handleSubmit={handleSubmit} value={name} setValue={setName} />
                         </div>
-                        <div className='w-50 '>
+                        <div className='w-100'>
                             <table className="table">
                                 <thead>
                                     <tr>
@@ -101,32 +107,46 @@ const CreateCategory = () => {
                                 </thead>
                                 <tbody>
                                     {category?.map((item, index) => (
-
                                         <tr key={index}>
-                                            <td >{item.name}</td>
+                                            <td>{item.name}</td>
                                             <td style={{ display: 'flex', textAlign: "center" }}>
-                                                <button className='btn btn-primary ms-2'
+                                                <button
+                                                    className='btn btn-primary ms-2'
                                                     onClick={() => {
                                                         setVisible(true);
                                                         setUpdatedName(item.name);
                                                         setSelected(item)
-                                                    }}> Edit</button>
-                                                <button className='btn btn-danger ms-2'
+                                                    }}
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    className='btn btn-danger ms-2'
                                                     onClick={() => { handleDeleteSubmit(item._id) }}
-                                                >Delete</button>
+                                                >
+                                                    Delete
+                                                </button>
                                             </td>
-                                        </tr >
-
+                                        </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
-                        <Modal onCancel={() => setVisible(false)}
-                            footer={null} open={visible}><CategoryForm value={updatedName} handleSubmit={handleUpdateSubmit} setValue={setUpdatedName} /></Modal>
+                        <Modal
+                            onCancel={() => setVisible(false)}
+                            footer={null}
+                            open={visible}
+                        >
+                            <CategoryForm
+                                value={updatedName}
+                                handleSubmit={handleUpdateSubmit}
+                                setValue={setUpdatedName}
+                            />
+                        </Modal>
                     </div>
                 </div>
             </div>
-        </Layout >
+        </Layout>
     )
 }
 

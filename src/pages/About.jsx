@@ -7,7 +7,7 @@ const About = () => {
 
     return (
         <Layout title={"About us - Ecommer app"}>
-            <button style={{ marginTop: 15, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <button style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
 
             <div className="row contactus ">
                 <div className="col-md-4 ">

@@ -54,7 +54,6 @@ const Product = () => {
         try {
             // Check if productId is defined and not empty
             if (!productId) {
-                console.warn('ProductId is not defined or empty. Reviews will not be fetched.');
                 setLoading(false);
                 return;
             }
@@ -167,8 +166,8 @@ const Product = () => {
     };
 
     // Function to remove a product from the cart
-    const removeFromCart = () => {
-        const updatedCart = cart.filter((item) => item._id !== product._id);
+    const removeFromCart = (pdata) => {
+        const updatedCart = cart.filter((item) => item._id !== pdata._id);
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
@@ -224,13 +223,29 @@ const Product = () => {
     };
 
     // Function to add a product to the cart
-    const handleAddToCart = (product) => {
-        const existingProduct = cart.find((item) => item._id === product._id);
+    const handleAddToCart = (pdata) => {
+        const existingProduct = cart.find((item) => item._id === pdata._id);
 
         if (existingProduct) {
-            updateQuantity(existingProduct._id, existingProduct.quantity + 1);
+            // If the product is already in the cart, remove it
+            removeFromCart(pdata);
         } else {
-            const newProduct = { ...product, quantity: 1, total: product.price };
+            // If the product is not in the cart, add it
+            const newProduct = { ...pdata, quantity: 1, total: pdata.price };
+            setCart([...cart, newProduct]);
+            localStorage.setItem('cart', JSON.stringify([...cart, newProduct]));
+        }
+    };
+
+    const handleAddToCartRelated = (pdata) => {
+        const existingProduct = cart.find((item) => item._id === pdata._id);
+
+        if (existingProduct) {
+            // If the related product is already in the cart, remove it
+            removeFromCart(pdata);
+        } else {
+            // If the related product is not in the cart, add it
+            const newProduct = { ...pdata, quantity: 1, total: pdata.price };
             setCart([...cart, newProduct]);
             localStorage.setItem('cart', JSON.stringify([...cart, newProduct]));
         }
@@ -247,7 +262,7 @@ const Product = () => {
     };
     return (
         <Layout title="Product-Single - Ecom" >
-            <button style={{ marginTop: 15, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <button style={{ marginTop: 65, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
             <section className="py-2">
                 <div className="container px-4 px-lg-5 my-5">
                     <div className="row gx-4 gx-lg-5 align-items-start">
@@ -278,7 +293,7 @@ const Product = () => {
                                         className='btn btn-outline-dark mt-auto'
                                         style={{ fontSize: "85%", overflow: 'hidden' }}
                                     >
-                                        {cart.find(item => item._id === product._id)} Add To Cart
+                                        {cart.find(item => item._id === product._id) ? "Remove From Cart" : "Add To Cart"}
                                     </button>
                                 )}
                             </div>
@@ -286,11 +301,11 @@ const Product = () => {
                     </div>
                 </div>
             </section>
-            <div className='row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center'>
-                <div>
-                    <form className='d-flex row' >
-                        <h4 className='text-center mb-2'>Leave A Reviews</h4>
-                        <div className="mb-0 mb-3">
+            <div className='row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-2 justify-content-center'>
+                <div className='mb-3'>
+                    <form className='d-flex flex-column m-4' >
+                        <h4 className='text-center mb-2'>Leave A Review</h4>
+                        <div className="mb-3">
                             <label htmlFor="rating" className="form-label">Rating&nbsp;</label>
                             <StarRatings
                                 rating={rating}
@@ -301,69 +316,76 @@ const Product = () => {
                                 changeRating={setRating}
                             />
                         </div>
-                        <div className="mb-2 justify-content-center">
+                        <div className="mb-2">
                             <textarea className="form-control" id="comment" placeholder='Give Review To This Product' value={comment} onChange={(e) => setComment(e.target.value)} />
                         </div>
-                        <button type="submit" className="btn btn-primary justify-content-center mt-2 " onClick={handleSubmitReview}>Submit</button>
+                        <button type="submit" className="btn btn-primary align-self-center mt-2 " onClick={handleSubmitReview}>Submit</button>
                     </form>
                 </div>
-                <div className='flex d-flex flex-column justify-content-center '>
-                    <h4>Post a Question</h4>
-                    <div>
-                        <input className='form-control mb-2'
-                            type="text"
-                            id="title"
-                            placeholder='Add Title of your Question'
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
+                <div className='mb-3'>
+                    <div className='flex d-flex flex-column justify-content-center m-4'>
+                        <h4>Post a Question</h4>
+                        <div>
+                            <input className='form-control mb-2'
+                                type="text"
+                                id="title"
+                                placeholder='Add Title of Your Question'
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <textarea className='form-control mb-1'
+                                type="text"
+                                id="question"
+                                placeholder='Enter Your Question'
+                                value={question}
+                                onChange={(e) => setQuestion(e.target.value)}
+                            />
+                        </div>
+                        <button className='btn btn-primary mt-2 align-self-center' onClick={handleSubmitQuestion}>Submit Question</button>
                     </div>
-                    <div>
-                        <textarea className='form-control mb-1'
-                            type="text"
-                            id="question"
-                            placeholder='Enter your question'
-                            value={question}
-                            onChange={(e) => setQuestion(e.target.value)}
-                        />
-                    </div>
-                    <button className='btn btn-primary mt-2' onClick={handleSubmitQuestion}>Submit Question</button>
                 </div>
             </div>
+
             <h4 className='text-center mt-2 mb-1'>Our Users Reviews</h4>
-            {loading || reviews.length === 0 ? (
-                <p className='text-center h5'>No Reviews Found</p>
-            ) : (
-                <div className='d-flex flex-row flex-wrap justify-content-center'>
-                    {reviews.map((r, i) => (
-                        <div className='card m-2 ' style={{ width: '20.0rem', height: '12rem', alignItems: 'center', padding: '4px', borderRadius: "12px" }} key={i}>
-                            <div className='card-body '>
-                                <h5 className='card-title mb-1'><b>Review: </b>{r.comment}</h5>
-                                <StarRatings
-                                    rating={r?.rating}
-                                    starRatedColor="gold"
-                                    starEmptyColor="lightgray"
-                                    starDimension="20px"
-                                    starSpacing="2px"
-                                />
-                                <p className='card-text mb-1'><b>User:</b> {r?.user?.name}</p>
-                                <p className='card-text'><b>Created At:</b> {moment(r?.createdAt).format('ddd, Do, MMM h:mm A ')}</p>
-                                {auth?.user?.role === 1 && (
-                                    <button
-                                        className='btn btn-danger'
-                                        onClick={() => deleteReview(r?._id)}
-                                    >
-                                        Delete
-                                    </button>
-                                )}
-                            </div>
+
+            <div className='d-flex flex-row flex-wrap justify-content-center '>
+                {reviews.map((r, i) => (
+                    <div className='card m-2' style={{ width: '20.0rem', height: '12rem', alignItems: 'center', padding: '4px', borderRadius: "12px" }} key={i}>
+                        <div className='card-body'>
+                            <h5 className='card-title mb-1'><b>Review: </b>{r.comment}</h5>
+                            <StarRatings
+                                rating={r?.rating}
+                                starRatedColor="gold"
+                                starEmptyColor="lightgray"
+                                starDimension="20px"
+                                starSpacing="2px"
+                            />
+                            <p className='card-text mb-1'><b>User:</b> {r?.user?.name}</p>
+                            <p className='card-text'><b>Created At:</b> {moment(r?.createdAt).format('ddd, Do, MMM h:mm A ')}</p>
+                            {auth?.user?.role === 1 && (
+                                <button
+                                    className='btn btn-danger'
+                                    onClick={() => deleteReview(r?._id)}
+                                >
+                                    Delete
+                                </button>
+                            )}
                         </div>
-                    ))}
+                    </div>
+                ))}
+            </div>
+
+            {!loading && reviews.length > 0 && (
+                <div className='d-flex justify-content-center mt-2'>
+                    <button className='btn btn-outline-dark mt-auto ' onClick={handleLoadMore}>
+                        Load More Reviews
+                    </button>
                 </div>
             )}
-            <div className='d-flex justify-content-center mt-2'>
-                <button className='btn btn-outline-dark mt-auto ' onClick={handleLoadMore}>Load More Reviews</button>
-            </div>
+
+            {/* Questions Section */}
             {loading || questions.length === 0 ? (
                 <p className='text-center h5'>No Questions Found</p>
             ) : (
@@ -388,7 +410,6 @@ const Product = () => {
                                         )}
                                     </div>
                                 ) : (
-                                    // Only show the "answer" input field for admins
                                     auth?.user?.role === 1 && (
                                         <div className='flex d-flex'>
                                             <input
@@ -411,52 +432,45 @@ const Product = () => {
                         </div>
                     ))}
                 </div>
-            )
-            }
-            <div className='d-flex justify-content-center mt-2'>
-                <button className='btn btn-outline-dark mt-auto' onClick={handleLoadMoreQuestion}>
-                    Load More Questions
-                </button>
-            </div>
+            )}
+
+            {!loading && questions.length > 0 && (
+                <div className='d-flex justify-content-center mt-2'>
+                    <button className='btn btn-outline-dark mt-auto' onClick={handleLoadMoreQuestion}>
+                        Load More Questions
+                    </button>
+                </div>
+            )}
+
 
             <section className="py-2 bg-light">
                 <div className="container px-2 px-lg-5 mt-3">
-                    <h2 className="fw-bolder mb-4">Related products</h2>
-                    <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 " >
-                        {relatedProduct.map((p, i) => (
-                            <div className="col mb-3 flex d-flex justify-content-center" key={i}>
-                                <div className="card w-auto"  >
-                                    {/* Product image*/}
-                                    <img style={{ height: "10rem", width: "13.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover", }} src={p?.image} alt={p?.name} />
-                                    <div className="card-body p-3">
-                                        <div className="text-center">
-                                            <b>Name: </b>{p?.name}<br></br>
-                                            <b>Category: </b>{p?.category?.name}<br></br>
-                                            {/* Product name*/}
-                                            {/* Product price*/}
-                                            <b>Price: </b> {p?.price}<br></br>
-                                        </div>
-                                    </div>
-                                    {/* Product actions*/}
-                                    <div className="card-footer p-4 ml-2 pt-0 mx-3 border-top-0 bg-transparent ">
-                                        <div className="text-center">
-                                            {cart.find(item => item._id === product._id) ? (
-                                                // Render the "Add To Cart" button if the condition is true
-
-                                                <button style={{ fontSize: "85%", overflow: 'hidden', marginRight: '6px' }} className='btn btn-outline-dark mt-auto' onClick={() => removeFromCart(product)}>Remove From Cart</button>
-                                            ) : (
-                                                // Render the "Remove" button if the condition is false
-                                                <button
-                                                    onClick={() => handleAddToCart(product)}
-                                                    className='btn btn-outline-dark mt-auto'
-                                                    style={{ fontSize: "85%", overflow: 'hidden', marginRight: '8px' }}
-                                                >
-                                                    {cart.find(item => item._id === product._id)} Add To Cart
-                                                </button>
-                                            )}
-                                            <Link to={`/single-product/${p.slug}`} className='btn btn-primary mt-auto ' style={{ fontSize: "85%", overflow: 'hidden', display: 'inline-block' }}>Details</Link>
-                                        </div>
-                                    </div>
+                    <h2 className="fw-bolder mb-4 text-center">Related products</h2>
+                    <div style={{ justifyContent: 'center' }} className='d-flex flex-wrap'>
+                        {relatedProduct?.map((pdata) => (
+                            <div className='card m-2 ' style={{ width: "15.7rem", height: '21.9rem' }} key={pdata._id}>
+                                <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.image} className='card-img-top' alt={pdata.name} />
+                                <div className='card-body p-0'>
+                                    <h5 className='card-title mb-1' style={{ marginLeft: "9px" }}><b>Name: </b>{pdata?.name}</h5>
+                                    <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Info: </b>{pdata?.description.substring(0, 25)}...</p>
+                                    <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Price: </b> {pdata?.price}</p>
+                                    <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Category: </b> {pdata?.category?.name}</p>
+                                </div>
+                                <div style={{ height: '4.5rem', width: '100%' }} className='card-footer d-flex flex-direction-row justify-content-around gap-2 p-3'>
+                                    {cart.find(item => item._id === pdata._id) ? (
+                                        // Render the "Remove From Cart" button if the condition is true
+                                        <button style={{ fontSize: "75%", overflow: 'hidden' }} className='btn btn-outline-dark mt-auto' onClick={() => removeFromCart(pdata)}>Remove From Cart</button>
+                                    ) : (
+                                        // Render the "Add To Cart" button if the condition is false
+                                        <button
+                                            onClick={() => handleAddToCartRelated(pdata)}
+                                            className='btn btn-outline-dark mt-auto'
+                                            style={{ fontSize: "75%", overflow: 'hidden' }}
+                                        >
+                                            {cart.find(item => item._id === pdata._id) ? "Remove From Cart" : "Add To Cart"}
+                                        </button>
+                                    )}
+                                    <Link to={`/single-product/${pdata.slug}`} className='btn btn-primary mt-auto ' style={{ fontSize: "75%", overflow: 'hidden', display: 'inline-block' }}>Details</Link>
                                 </div>
                             </div>
                         ))}

@@ -44,20 +44,23 @@ const ProductAdmin = () => {
 
     return (
         <Layout>
-            <button style={{ marginTop: 15, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
-
-            <div className='container-fluid m-3 p-3'>
+            <button
+                style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }}
+                className='btn btn-primary'
+                onClick={() => navigate(-1)}
+            >Go Back</button>
+            <div className='container-fluid m-1 p-3'>
                 <div className="row">
-                    <div className="col-md-2 margin-admin">
+                    <div className="col-md-2 ">
                         <AdminMenu />
                     </div>
                     <div className="col-md-9">
-                        <h3 className="text-center">All Products Controller</h3>
-                        <div className="d-flex justify-content-start flex-direction-row flex-wrap p-2">
+                    <h2 className="text-center">Admin All Products</h2>
+                        <div className="d-flex flex-wrap justify-content-center p-2">
                             {products?.map((product) => (
-                                <div key={product._id} className="card m-1 card-admin" style={{ width: "15.0rem", height: '22.5rem' }}>
+                                <div key={product._id} className="card m-1 card-admin" style={{ width: "100%", maxWidth: "16rem" }}>
                                     <img
-                                        style={{ width: "14rem", height: "10rem", padding: '4px', borderRadius: 10, objectFit: "cover" }}
+                                        style={{ width: "100%", height: "10rem", padding: '4px', borderRadius: 10, objectFit: "cover" }}
                                         src={product.image[0]}
                                         className="card-img-top"
                                         alt={product.name}
@@ -68,7 +71,7 @@ const ProductAdmin = () => {
                                         <p className='card-text mb-1'><b>Price: </b> {product?.price}</p>
                                         <p className='card-text mb-1'><b>Category: </b> {product?.category?.name}</p>
                                     </div>
-                                    <div className="card-footer d-flex flex-direction-row p-2" >
+                                    <div className="card-footer d-flex p-2" >
                                         <Link
                                             style={{ textDecoration: "none" }}
                                             to={`/dashboard/admin/update-product/${product.slug}`}
@@ -77,7 +80,6 @@ const ProductAdmin = () => {
                                         </Link>
                                         <button
                                             onClick={() => handleDelete(product._id)}
-
                                             className="btn btn-danger"
                                         >
                                             Delete

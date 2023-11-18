@@ -67,79 +67,93 @@ const UserShow = () => {
 
   return (
     <Layout title='Show Users'>
-      <button style={{ marginTop: 15, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+      <button style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
 
-      <div className='container-fluid m-3 p-3'>
+      <div className='container-fluid m-1 p-3'>
         <div className="row">
-          <div className="col-md-2 margin-admin">
+          <div className="col-md-2">
             <AdminMenu />
           </div>
           <div className='col-md-9'>
-            <h2 className="text-center mb-0">All Users Information</h2>
-            <h4 className='mb-1 mt-1 mb-2'>Admin Users</h4>
-            {admin?.map((o, i) => (
-              <div key={i} className='border shadow rounded'>
-                <table className='table mb-0 table-dark'>
-                  <thead>
-                    <tr className='text-center '>
-                      <th scope='col'>#</th>
-                      <th scope='col'>Admin Name</th>
-                      <th scope='col'>Admin Email</th>
-                      <th scope='col'>Admin Address</th>
-                      <th scope='col'>Admin Phone</th>
-                      <th scope='col'>Created On</th>
-                      <th scope='col'>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className='text-center'>
-                      <td>{i + 1}</td>
-                      <td>{o?.name}</td>
-                      <td>{o?.email}</td>
-                      <td>{o?.address}</td>
-                      <td>{o?.phone}</td>
-                      <td>{moment(o?.createAt).format("dddd, MMMM, Do, YYYY")}</td>
-                      <td><button onClick={() => handleToggleAdmin(o._id, o.active)} className='btn btn-primary'>
-                        {o.active ? 'Disable' : 'Enable'}
-                      </button></td>
-                    </tr>
-                  </tbody>
-                </table>
+            <h2 className="text-center">All Users Information</h2>
+            <div className='mb-3'>
+              <h4 className='mb-2 mt-2'>Admin Users</h4>
+              <div className='table-responsive'>
+                {admin?.map((o, i) => (
+                  <div key={i} className='border shadow rounded mb-3'>
+                    <table className='table table-dark mb-0'>
+                      <thead>
+                        <tr className='text-center '>
+                          <th scope='col'>#</th>
+                          <th scope='col'>Admin Name</th>
+                          <th scope='col'>Admin Email</th>
+                          <th scope='col'>Admin Address</th>
+                          <th scope='col'>Admin Phone</th>
+                          <th scope='col'>Created On</th>
+                          <th scope='col'>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className='text-center'>
+                          <td>{i + 1}</td>
+                          <td>{o?.name}</td>
+                          <td>{o?.email}</td>
+                          <td>{o?.address}</td>
+                          <td>{o?.phone}</td>
+                          <td>{moment(o?.createAt).format("dddd, MMMM, Do, YYYY")}</td>
+                          <td>
+                            <button onClick={() => handleToggleAdmin(o._id, o.active)} className='btn btn-primary'>
+                              {o.active ? 'Disable' : 'Enable'}
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
               </div>
-            ))}
-            <h4 className='mb-1 mt-1 mb-2'>Consumer Users</h4>
-            {user?.map((o, i) => (
-              <div key={i} className='border shadow rounded'>
-                <table className='table table-dark mb-0'>
-                  <thead>
-                    <tr className='text-center'>
-                      <th scope='col'>#</th>
-                      <th scope='col'>User Name</th>
-                      <th scope='col'>User Email</th>
-                      <th scope='col'>User Address</th>
-                      <th scope='col'>User Phone</th>
-                      <th scope='col'>Created On</th>
-                      <th scope='col'>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className='text-center'>
-                      <td>{i + 1}</td>
-                      <td>{o?.name}</td>
-                      <td>{o?.email}</td>
-                      <td>{o?.address}</td>
-                      <td>{o?.phone}</td>
-                      <td>{moment(o?.createAt).format("dddd, MMMM, Do, YYYY")}</td>
-                      <td><button onClick={() => handleDelete(o._id)} className='btn btn-danger'>Delete</button></td>
-                    </tr>
-                  </tbody>
-                </table>
+            </div>
+
+            <div>
+              <h4 className='mb-2 mt-2'>Consumer Users</h4>
+              <div className='table-responsive'>
+                {user?.map((o, i) => (
+                  <div key={i} className='border shadow rounded mb-3'>
+                    <table className='table table-dark mb-0'>
+                      <thead>
+                        <tr className='text-center'>
+                          <th scope='col'>#</th>
+                          <th scope='col'>User Name</th>
+                          <th scope='col'>User Email</th>
+                          <th scope='col'>User Address</th>
+                          <th scope='col'>User Phone</th>
+                          <th scope='col'>Created On</th>
+                          <th scope='col'>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className='text-center'>
+                          <td>{i + 1}</td>
+                          <td>{o?.name}</td>
+                          <td>{o?.email}</td>
+                          <td>{o?.address}</td>
+                          <td>{o?.phone}</td>
+                          <td>{moment(o?.createAt).format("dddd, MMMM, Do, YYYY")}</td>
+                          <td>
+                            <button onClick={() => handleDelete(o._id)} className='btn btn-danger'>Delete</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
     </Layout>
+
   );
 };
 

@@ -10,7 +10,7 @@ const AdminDashboard = () => {
     const [auth] = useAuth()
     return (
         <Layout>
-            <button style={{ marginTop: 15, marginLeft: 15, marginBottom:15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <button style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
             <div className='container-fluid m-3 p-3 '>
                 <div className='row'>
                     <div className='col-md-2 margin-admin'>
@@ -21,7 +21,7 @@ const AdminDashboard = () => {
                             <h3>Name: {auth?.user?.name}</h3>
                             <h3>Email: {auth?.user?.email}</h3>
                             <h3>Address: {auth?.user?.address}</h3>
-                            <h3>Role: {auth?.user?.role}</h3>
+                            <h3>Role: {auth?.user?.role === 1 ? "Admin" : "User"}</h3>
                         </div>
                     </div>
                 </div>
