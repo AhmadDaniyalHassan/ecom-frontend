@@ -6,7 +6,7 @@ const FeaturedProducts = () => {
 
     const getFeaturedProducts = async () => {
         try {
-            const { data } = await axios.get("http://localhost:8000/api/product/get-featured-product");
+            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-featured-product");
             setFeaturedProducts(data);
         } catch (error) {
             console.log(error);

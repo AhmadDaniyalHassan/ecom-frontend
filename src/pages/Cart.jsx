@@ -89,7 +89,7 @@ const AddToCart = () => {
 
   const getToken = async () => {
     try {
-      const { data } = await axios.get('http://localhost:8000/api/product/braintree/token');
+      const { data } = await axios.get('https://backend-ecom-9zf7.onrender.com/api/product/braintree/token');
       setClientToken(data?.clientToken);
     } catch (error) {
       console.log(error);
@@ -97,7 +97,7 @@ const AddToCart = () => {
   };
   const handleApplyCoupon = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/coupon/use-coupon', {
+      const response = await axios.post('https://backend-ecom-9zf7.onrender.com/api/coupon/use-coupon', {
         couponCode,
         userId: auth?.user?._id,
       });
@@ -124,7 +124,7 @@ const AddToCart = () => {
     try {
       setLoading(true);
       if (paymentMethod === 'cod') {
-        const { data } = await axios.post('http://localhost:8000/api/product/braintree/payment', {
+        const { data } = await axios.post('https://backend-ecom-9zf7.onrender.com/api/product/braintree/payment', {
           cart,
           quantity,
           paymentMethod,
@@ -139,7 +139,7 @@ const AddToCart = () => {
         }
       } else if (paymentMethod === 'braintree' && instance) {
         const { nonce } = instance.requestPaymentMethod();
-        const { data } = await axios.post('http://localhost:8000/api/product/braintree/payment', {
+        const { data } = await axios.post('https://backend-ecom-9zf7.onrender.com/api/product/braintree/payment', {
           nonce,
           cart,
           quantity,

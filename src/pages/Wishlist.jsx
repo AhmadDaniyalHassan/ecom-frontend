@@ -11,7 +11,6 @@ const Wishlist = () => {
         const updatedWishlist = wishlist.filter(item => item._id !== _id);
         setWishlist(updatedWishlist);
         localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-
     };
 
     const handleAddToCart = (item) => {

@@ -27,7 +27,7 @@ const ProductAdmin = () => {
 
     const handleDelete = async (productId) => {
         try {
-            const { data } = await axios.delete(`http://localhost:8000/api/product/delete-product/${productId}`);
+            const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/product/delete-product/${productId}`);
             console.log(data);
             getAllProducts();
             toast.success(data.message || 'Product deleted successfully');
@@ -39,7 +39,7 @@ const ProductAdmin = () => {
     };
     const toggleFeatured = async (productId) => {
         try {
-            await axios.put(`http://localhost:8000/api/product/toggle-featured/${productId}`);
+            await axios.put(`https://backend-ecom-9zf7.onrender.com/product/toggle-featured/${productId}`);
             getAllProducts();
             toast.success('Featured status updated successfully');
 

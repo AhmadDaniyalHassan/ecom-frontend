@@ -29,7 +29,7 @@ const HomePage = () => {
     const getAllProduct = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`http://localhost:8000/api/product/product-list/${page}`);
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`);
             setLoading(false)
             setProduct(data?.products)
         } catch (error) {
@@ -63,7 +63,7 @@ const HomePage = () => {
     const loadMore = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`http://localhost:8000/api/product/product-list/${page}`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
             setLoading(false)
             setProduct([...product, ...data?.products])
 
@@ -74,7 +74,7 @@ const HomePage = () => {
     }
     const getTotal = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:8000/api/product/product-count`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-count`)
             setTotal(data?.total)
         } catch (error) {
             console.log(error)
@@ -89,7 +89,7 @@ const HomePage = () => {
 
     const getCategory = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:8000/api/category/get-category`)
+            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/category/get-category`)
             if (data?.success) {
                 setCategory(data?.category)
             }
@@ -167,7 +167,7 @@ const HomePage = () => {
                 // If no categories are checked, reset the filteredProduct state to display all products
                 setFilteredProduct([]);
             } else {
-                const { data } = await axios.post(`http://localhost:8000/api/product/filter-product`, { checked, radio });
+                const { data } = await axios.post(`https://backend-ecom-9zf7.onrender.com/api/product/filter-product`, { checked, radio });
                 console.log('Filtered Product Data:', data);
                 setFilteredProduct(data?.product);
             }

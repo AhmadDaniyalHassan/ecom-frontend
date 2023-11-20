@@ -5,6 +5,8 @@ import instagram from '../../assets/instagram.png'
 import { useAuth } from './../../context/auth'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 const Footer = () => {
     const [subscriptionStatus, setSubscriptionStatus] = useState(null);
     const [email, setEmail] = useState('');
@@ -20,11 +22,9 @@ const Footer = () => {
             if (!auth.user) {
                 console.error('User not authenticated.');
                 setLoading(false);
-                // Handle the case where the user is not authenticated, possibly redirect to login
                 return;
             }
 
-            // Check if the user is already subscribed
             if (auth.user.newsletterSubscribed) {
                 setSubscriptionStatus({
                     type: 'info',
@@ -34,14 +34,9 @@ const Footer = () => {
                 return;
             }
 
-            // Make an API request to subscribe the user
             const response = await axios.post('https://backend-ecom-9zf7.onrender.com/api/user/subscribe-newsletter', {
                 userId: auth?.user._id,
             });
-
-            // Assuming your API response contains a success message
-
-            // Update the local auth state to reflect the newsletter subscription status
             setAuth({
                 ...auth,
                 user: {
@@ -50,11 +45,15 @@ const Footer = () => {
                 },
             });
             setSubscriptionStatus({ type: 'success', message: response.data.message });
+            toast.success(response.data.message)
             setEmail(''); // Clear the email input after successful subscription
         } catch (error) {
             console.error('Error subscribing to the newsletter:', error);
+
             // Handle the error and possibly display an error message to the user
             setSubscriptionStatus({ type: 'error', message: 'Error subscribing to the newsletter. Please try again.' });
+            toast.error('Error subscribing to the newsletter. Please try again.')
+
         } finally {
             setLoading(false);
         }
@@ -76,6 +75,7 @@ const Footer = () => {
                                         <div className="content">
                                             <form onSubmit={handleSubscribe}>
                                                 <h2>Subscribe To Know About Us More</h2>
+                                                <ToastContainer />
                                                 <div className="input-group">
                                                     <input
                                                         name="email"
