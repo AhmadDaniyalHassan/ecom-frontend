@@ -59,41 +59,43 @@ const UserProfile = () => {
 
     return (
         <Layout title='User-Profile' description='Profile Page'>
-            <button style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <button style={{ marginTop: 25, marginLeft: 40 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
 
             <div className='container-fluid m-3 p-3'>
                 <div className='row'>
-                    <div className='col-md-2 mt-2'>
+                    <div className='col-md-2 mt-5'>
                         <UserMenu />
                     </div>
-                    <div className='col md-9'>
-                        <h2>Update User Profile</h2>
-                        <div className='signup'>
-                            <div className=' p-2 signup-wrapper'>
-                                <h3 className='mb-3 text-center'>Update User Profile</h3>
+                    <div className='col md-9 '>
+                        <div className='mx-3 mt-0'>
+                            <div className='p-2'>
+                                <h2 className='mb-0 text-center'>Update User Profile</h2>
                                 <form onSubmit={handleSubmit}>
                                     <div className="mb-3">
+                                        <h6 className="mx-1 mb-1 ">Name</h6>
                                         <input required value={name} onChange={(e) => setName(e.target.value)} placeholder='Enter Your Name' type="text" className="form-control" />
-                                        <div className="form-text"></div>
                                     </div>
 
                                     <div className="mb-3">
+                                        <h6 className="mx-1 mb-1">Email</h6>
                                         <input required value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Enter Your Email' type="email" className="form-control" />
-                                        <div id="emailHelp" className="form-text"></div>
                                     </div>
 
                                     <div className="mb-3">
+                                        <h6 className="mx-1 mb-1">Password</h6>
                                         <input required value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Enter Your Password' type="password" className="form-control" />
                                     </div>
 
                                     <div className="mb-3">
+                                        <h6 className="mx-1 mb-1">Phone Number</h6>
                                         <input required value={phone} onChange={(e) => setPhone(e.target.value)} type="text" placeholder='Enter Your Phone Number' className="form-control" />
-                                        <div className="form-text"></div>
+
                                     </div>
 
                                     <div className="mb-3">
+                                        <h6 className="mx-1 mb-1">Address</h6>
                                         <input required value={address} onChange={(e) => setAddress(e.target.value)} placeholder='Enter Your Home Address' type="text" className="form-control" />
-                                        <div className="form-text"></div>
+
                                     </div>
                                     <div className='text-center'>
                                         <button type="submit" className="btn btn-primary mb-3">Update Profile</button>

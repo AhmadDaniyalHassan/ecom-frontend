@@ -4,7 +4,8 @@ import AdminMenu from '../../components/layout/AdminMenu'
 import axios from 'axios'
 import { Select } from 'antd'
 import { useNavigate, useParams } from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 const { Option } = Select
 
 const UpdateProduct = () => {
@@ -80,15 +81,18 @@ const UpdateProduct = () => {
             if (!data) {
                 console.log(data)
                 console.log('Updated Success')
+                toast.success('Product Updated Successfully')
             }
         } catch (error) {
             console.log(error)
+            toast.error(error.message || 'Error In Updating Product');
         }
 
     }
     return (
         <Layout title='Update Product'>
             <button style={{ marginTop: 60, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <ToastContainer />
             <div className='container-fluid m-2 p-2'>
                 <div className='row'>
                     <div className='col-md-3 mt-2'>

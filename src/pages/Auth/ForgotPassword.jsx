@@ -5,7 +5,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/layout/Header'
 import Footer from '../../components/layout/Footer'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('')
@@ -23,11 +24,12 @@ const ForgotPassword = () => {
       const response = await axios.post("https://backend-ecom-9zf7.onrender.com/api/user/forgot-password",
         { email });
       if (response && response.data) {
-        // console.log("response coming from forgot password api okay : ", response.data)
+        toast.success('Email Sent');
         navigate("/resetpassword")
       }
     } catch (error) {
       console.log("Error from forgot password api xD", error)
+      toast.error('Error Sending Email');
     }
 
   }
@@ -36,6 +38,7 @@ const ForgotPassword = () => {
 
     <>
       <Header />
+      <ToastContainer />
       <button style={{ marginTop: 10, marginLeft: 15 }} className='btn btn-primary mb-2' onClick={() => navigate(-1)}>Go Back</button>
       <div className='forgetpassword signup-bg'>
         <div className='login-wrapper'>

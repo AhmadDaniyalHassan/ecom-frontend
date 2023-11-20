@@ -5,7 +5,8 @@ import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 const UserShow = () => {
   const [user, setUser] = useState([]);
   const [admin, setAdmin] = useState([]);
@@ -37,8 +38,10 @@ const UserShow = () => {
       const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/user/delete-user/${userId}`);
       console.log(data);
       getAllUsers(); // Refresh the user list after deletion.
+      toast.success('User deleted successfully');
     } catch (error) {
       console.log(error);
+      toast.error('Error deleting user');
     }
   };
 
@@ -53,9 +56,11 @@ const UserShow = () => {
           adminUser._id === userId ? { ...adminUser, active: !isActive } : adminUser
         );
         setAdmin(updatedAdmins);
+        toast.success('Admin status toggled successfully');
       }
     } catch (error) {
       console.log(error);
+      toast.error('Error toggling admin status');
     }
   };
 
@@ -68,7 +73,7 @@ const UserShow = () => {
   return (
     <Layout title='Show Users'>
       <button style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
-
+      <ToastContainer />
       <div className='container-fluid m-1 p-3'>
         <div className="row">
           <div className="col-md-2">

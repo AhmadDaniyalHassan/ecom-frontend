@@ -4,7 +4,8 @@ import AdminMenu from '../../components/layout/AdminMenu'
 import axios from 'axios'
 import { Select } from 'antd'
 import { useNavigate } from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 const { Option } = Select
 const CreateProduct = () => {
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ const CreateProduct = () => {
     const getAllCategory = async () => {
         try {
 
-            const { data } = await axios.get('https://backend-ecom-9zf7.onrender.com/api/category/get-category')
+            const { data } = await axios.get('http://localhost:8000/api/category/get-category')
             if (data?.success) {
                 setCategories(data?.category)
             }
@@ -35,7 +36,7 @@ const CreateProduct = () => {
         getAllCategory()
 
     }, [])
-    let timeout
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
@@ -50,18 +51,14 @@ const CreateProduct = () => {
             for (const file of images) {
                 formData.append('images', file);
             }
-
-
-            const { data } = axios.post('https://backend-ecom-9zf7.onrender.com/api/product/create-product', formData)
+            const { data } = await axios.post('http://localhost:8000/api/product/create-product', formData)
             if (data?.success) {
-            } else {
-                timeout = setTimeout(() => {
-                    navigate("/dashboard/admin/products");
-                    clearTimeout(timeout)
-                }, 1400);
+                toast.success(data?.message || 'Product Created Successfully');
+                navigate("/dashboard/admin/products");
             }
         } catch (error) {
             console.log(error);
+            toast.error(error.message || 'Error In Creating Product');
         } finally {
             setLoading(false); // Set loading back to false after the request is complete
         }
@@ -70,6 +67,7 @@ const CreateProduct = () => {
 
         <Layout title='Create Product'>
             <button style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <ToastContainer />
             <div className='container-fluid m-1 p-3'>
                 <div className="row">
                     <div className="col-md-2">

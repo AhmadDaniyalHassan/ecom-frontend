@@ -18,7 +18,7 @@ const AdminOrder = () => {
 
     const getOrders = async () => {
         try {
-            const { data } = await axios.get('https://backend-ecom-9zf7.onrender.com/api/user/all-orders')
+            const { data } = await axios.get('http://localhost:8000/api/user/all-orders')
             console.log(data)
             setOrders(data)
         } catch (error) { console.log(error) }
@@ -26,7 +26,7 @@ const AdminOrder = () => {
 
     const handleDelete = async (orderId) => {
         try {
-            const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/user/delete-order/${orderId}`);
+            const { data } = await axios.delete(`http://localhost:8000/api/user/delete-order/${orderId}`);
 
             getOrders(); // Refresh the order list after deletion
         } catch (error) {
@@ -41,7 +41,7 @@ const AdminOrder = () => {
 
     const handleChange = async (orderId, value) => {
         try {
-            const { data } = await axios.put(`https://backend-ecom-9zf7.onrender.com/api/user/order-status/${orderId}`, { status: value })
+            const { data } = await axios.put(`http://localhost:8000/api/user/order-status/${orderId}`, { status: value })
             getOrders()
         } catch (error) {
             console.log(error);
@@ -113,7 +113,7 @@ const AdminOrder = () => {
                                             <div className='card m-2' key={k} style={{ width: '19rem' }}>
                                                 <img
                                                     style={{ margin: "auto", width: '80%', height: 'auto', objectFit: 'cover', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
-                                                    src={prod.image} className='card-img-top' alt={prod.name}
+                                                    src={prod.images[0]} className='card-img-top' alt={prod.name}
                                                 />
                                                 <div className='card-body'>
                                                     <p className='card-title'><b>Name: </b> {prod.name}</p>

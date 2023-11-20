@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
 import Header from '../../components/layout/Header'
 import Footer from '../../components/layout/Footer'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const Signup = () => {
 
@@ -33,12 +35,12 @@ const Signup = () => {
             const response = await axios.post("https://backend-ecom-9zf7.onrender.com/api/user/signup",
                 { name, email, password, phone, address, role });
             if (response && response.data.success) {
-                // console.log("response coming from signup api okay : ", response.data.message)
+                toast.success('Signup Successful');
                 navigate('/login')
             }
         } catch (error) {
-
             console.log("Error from signup api", error)
+            toast.error('Error Signup');
         }
 
     }
@@ -51,6 +53,7 @@ const Signup = () => {
     return (
         <>
             <Header />
+            <ToastContainer />
             <div className=' signup-bg mt-4'>
                 <div className='signup'>
                     <div className=' p-2 signup-wrapper'>

@@ -5,7 +5,8 @@ import axios from 'axios'
 import CategoryForm from '../../components/Form/CategoryForm'
 import { Modal } from "antd"
 import { useNavigate } from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 const CreateCategory = () => {
     const navigate = useNavigate()
 
@@ -24,10 +25,12 @@ const CreateCategory = () => {
             if (data?.success) {
                 setName(''); // Clear the input field
                 getAllCategory();
+                toast.success(data.message || 'Category Created Successfully');
 
             }
         } catch (error) {
             console.log(error)
+            toast.error(data.message || 'Error In Creating Category');
 
         }
     }
@@ -42,6 +45,7 @@ const CreateCategory = () => {
 
         } catch (error) {
             console.log(error)
+            toast.error(data.message || 'Error In Fetching Category');
         }
     }
 
@@ -59,10 +63,12 @@ const CreateCategory = () => {
                 setUpdatedName('')
                 setVisible(false)
                 getAllCategory()
+                toast.success(data.message || 'Category Updated Successfully')
             }
 
         } catch (error) {
             console.log(error)
+            toast.error(data.message || 'Error In Updating Category');
         }
     }
     const handleDeleteSubmit = async (pid) => {
@@ -70,10 +76,12 @@ const CreateCategory = () => {
             const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/category/delete-category/${pid}`)
             if (data.success) {
                 getAllCategory()
+                toast.success(data.message || 'Category Deleted Successfully')
             }
 
         } catch (error) {
             console.log(error)
+            toast.error(data.message || 'Error In Deleting Category');
         }
     }
 
@@ -86,7 +94,7 @@ const CreateCategory = () => {
             >
                 Go Back
             </button>
-
+            <ToastContainer />
             <div className='container-fluid m-1 p-3'>
                 <div className="row">
                     <div className="col-md-2">

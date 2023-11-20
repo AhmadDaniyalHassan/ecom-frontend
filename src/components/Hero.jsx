@@ -35,23 +35,19 @@ const Hero = () => {
 
             <div className="slide one parallax-effect">
                 <h1>Slide 1</h1>
-                <div className="credit">Made with <span style={{ color: 'tomato' }}>❤</span> by <a href="https://www.learningrobo.com/">Learning Robo</a></div>
             </div>
 
             <div className="slide two parallax-effect">
                 <h1>Slide 2</h1>
-                <div className="credit">Made with <span style={{ color: 'tomato' }}>❤</span> by <a href="https://www.learningrobo.com/">Learning Robo</a></div>
             </div>
 
 
             <div className="slide four parallax-effect">
                 <h1>Slide 4</h1>
-                <div className="credit">Made with <span style={{ color: 'tomato' }}>❤</span> by <a href="https://www.learningrobo.com/">Learning Robo</a></div>
             </div>
 
             <div className="slide five parallax-effect">
                 <h1>Slide 5</h1>
-                <div className="credit">Made with <span style={{ color: 'tomato' }}>❤</span> by <a href="https://www.learningrobo.com/">Learning Robo</a></div>
             </div>
 
             <div className="labels">

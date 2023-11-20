@@ -26,8 +26,10 @@ main {
 }
 .carousel {
   position: relative;
-  width: 100%;
-  height: 100vh;
+  max-width: 100%;
+  max-height: 100%;
+  height: 60vh; /* Set the height to 100% of the viewport height */
+
   overflow: hidden;
 }
 .carousel h1 {
@@ -58,8 +60,8 @@ main {
 .labels label {
   display: inline-block;
   background-color: transparent;
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   border-radius: 15px;
   margin: 0.5vmin 2vmin;
   border: 3px solid white;
@@ -104,15 +106,9 @@ main {
 .credit {
   text-align: center;
   color: #fff;
-  margin-top: 10px;
+  margin-top: 0px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-}
-
-.credit a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
 }
 
 /* Hero is above the navbar complete hero css AbOVE WARNING || down navbar */
@@ -342,12 +338,11 @@ body {
 }
 .active-image {
   width: 7rem;
-  margin: .5rem;
+  margin: 0.5rem;
 }
 .small-image {
   width: 7rem;
-  margin: .5rem;
-
+  margin: 0.5rem;
 }
 /* searchbar styling down here*/
 
@@ -398,6 +393,7 @@ body {
     display: none;
   }
 }
+
 @media (min-width: 1200px) {
   .nav-bar-cart-wish {
     display: none;
@@ -597,8 +593,17 @@ a.buy-btn:focus {
   .loadmore {
     margin-left: 8rem;
   }
+  .single-product-relateive {
+    display: flex;
+    justify-content: start;
+  }
   .signup {
     flex-direction: row;
+  }
+  .small-user-dashboard {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
   }
   .btn-small-margin {
     margin-top: 7px;
@@ -611,6 +616,7 @@ a.buy-btn:focus {
   .wsk-cp-product .wsk-cp-img {
     top: -40px;
   }
+
   .wsk-cp-product .wsk-cp-img img {
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   }
@@ -639,4 +645,17 @@ a.buy-btn:focus {
 
 .fade-out {
   opacity: 0;
+}
+
+.single-product-relateive {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  top: 420px;
+  left: -495px;
+}
+.detail-single-product {
+  position: relative;
+  top: -340px;
+  left: 520px;
 }

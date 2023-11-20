@@ -41,15 +41,15 @@ const Dashboard = () => {
     return (
 
         <Layout title="Dashboard - User-Panel">
-            <button style={{ marginTop: 65, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
+            <button style={{ marginTop: 25, marginLeft: 40 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
 
             <div className='container-fluid m-3 p-3'>
                 <div className='row'>
-                    <div className='col-md-2 mt-2'>
+                    <div className='col-md-2 mt-1'>
                         <UserMenu />
                     </div>
-                    <div className='col md-9' style={{ marginTop: '85px' }}>
-                        <div className='card w-50 p-2' style={{ backgroundColor: '#E8E8E8' }}>
+                    <div className='col md-9 small-user-dashboard' style={{ marginTop: '21px', marginLeft: '10px' }}>
+                        <div className='card w-100 p-2 ' style={{ backgroundColor: '#E8E8E8' }}>
                             <h4>Name:<span className='h5'> {auth?.user.name}</span></h4>
                             <h4>Email:<span className='h5'> {auth?.user.email}</span></h4>
                             <h4>Address: <span className='h5'>{auth?.user.address}</span></h4>

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/auth';
 import moment from 'moment';
 import StarRatings from 'react-star-ratings';
-import { Carousel } from 'react-responsive-carousel';
+
 
 const Product = () => {
     const [api, setApi] = useState([]);
@@ -270,21 +270,20 @@ const Product = () => {
         <Layout title="Product-Single - Ecom" >
             <button style={{ marginTop: 15, marginLeft: 15 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
             <section className="py-2">
-                <div className="container px-4 px-lg-5 my-5">
-                    <div className="row gx-4 gx-lg-5 align-items-start">
+                <div className="container px-4 px-lg-5 ">
+                    <div className="row gx-4 gx-lg-5">
                         <div className="col-md-5">
                             {product?.images && product.images.length > 0 && (
                                 <img
-                                    className={`card-img-top mb-5 mb-md-0`}
+                                    className={`card-img-top mb-5 mb-md-0 p-4 pt-0 preview-image-single`}
                                     style={{
                                         borderRadius: "20px",
                                         transform: `scale(${currentImageIndex === 0 ? 1.25 : 1.30})`, // Increase size on hover
                                         transition: 'transform 0.5s',
-                                        marginLeft: '40px',
                                         padding: '1rem'
 
                                     }}
-                                    src={`${product.images[currentImageIndex].replace("upload/", "upload/q_auto,w_500,h_450/")}`}
+                                    src={`${product.images[currentImageIndex].replace("upload/", "upload/q_auto,w_500,h_500/")}`}
                                     alt={`${product.name}-image-${currentImageIndex}`}
                                 />
                             )}
@@ -292,17 +291,17 @@ const Product = () => {
 
                         <div className="col-md-5">
                             {product?.images && product.images.length > 0 ? (
-                                <div style={{ position: 'relative', left: '-38rem', top: '-25px' }}>
+                                <div className='single-product-relateive' >
                                     {product.images.map((imageUrl, index) => (
                                         <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
                                             <img
-                                                className={`card-img-top mb-5 mb-md-0 ${index === currentImageIndex ? 'active-image' : 'small-image'}`}
+                                                className={`card-img-top mb-0 mb-md-0 ${index === currentImageIndex ? 'active-image' : 'small-image'}`}
                                                 style={{
                                                     borderRadius: "20px",
                                                     cursor: 'pointer',
                                                     transition: 'transform 0.3s',
                                                 }}
-                                                src={`${imageUrl.replace("upload/", "upload/q_auto,w_500,h_450/")}`}
+                                                src={`${imageUrl.replace("upload/", "upload/q_auto,w_500,h_500/")}`}
                                                 alt={`${product.name}-image-${index}`}
                                                 onClick={() => handleImageClick(index)}
                                                 onMouseEnter={() => setCurrentImageIndex(index)} // Add this line for hover effect
@@ -315,7 +314,8 @@ const Product = () => {
                                 <p>No images available</p>
                             )}
                         </div>
-                        <div className="col-md-6 mt-5">
+
+                        <div className="col-md-6 mt-2 mx-3 detail-single-product">
                             <h2 className="display-8 fw-bolder mb-1 "><span className='text-muted h3'>Name:</span> {product?.name}</h2>
                             <div className="lead mb-1">Category: {product?.category?.name}</div>
                             <p className="lead mb-1">Description: {product?.description}</p>
@@ -323,10 +323,10 @@ const Product = () => {
                                 rating={isNaN(averageRating) ? 0 : averageRating}
                                 starRatedColor="gold"
                                 starEmptyColor="lightgray"
-                                starDimension="20px"
+                                starDimension="24px"
                                 starSpacing="2px"
                             />
-                            <div className="fs-5 mb-1">
+                            <div className="fs-4 mb-1">
                                 <span>Price: {product?.price}&nbsp;&nbsp;</span>
                             </div>
                             <div className="d-flex">
@@ -370,7 +370,7 @@ const Product = () => {
                         <button type="submit" className="btn btn-primary align-self-center mt-2 " onClick={handleSubmitReview}>Submit</button>
                     </form>
                 </div>
-                <div className='mb-3'>
+                <div className='mb-1'>
                     <div className='flex d-flex flex-column justify-content-center m-4'>
                         <h4>Post a Question</h4>
                         <div>
@@ -396,7 +396,6 @@ const Product = () => {
                 </div>
             </div>
 
-            <h4 className='text-center mt-2 mb-1'>Our Users Reviews</h4>
 
             <div className='d-flex flex-row flex-wrap justify-content-center '>
                 {reviews.map((r, i) => (
@@ -489,8 +488,8 @@ const Product = () => {
                 </div>
             )}
             <section className="py-2 bg-light">
-                <div className="container px-2 px-lg-5 mt-3">
-                    <h2 className="fw-bolder mb-4 text-center">Related products</h2>
+                <div className="container px-2 px-lg-5 mt-1">
+                    <h2 className="fw-bolder mb-2 text-center">Related products</h2>
                     <div style={{ justifyContent: 'center' }} className='d-flex flex-wrap'>
                         {relatedProduct?.map((pdata) => (
                             <div className='card m-2 ' style={{ width: "15.7rem", height: '21.9rem' }} key={pdata._id}>

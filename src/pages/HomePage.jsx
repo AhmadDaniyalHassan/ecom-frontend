@@ -10,6 +10,7 @@ import { Prices } from '../components/Prices'
 import wishlistHeartFill from '../assets/wishlist-heart-fill.svg'
 import share from '../assets/share.svg'
 import Hero from '../components/Hero.jsx'
+
 const HomePage = () => {
 
     const [product, setProduct] = useState([]);
@@ -22,14 +23,13 @@ const HomePage = () => {
     const [wishlist, setWishlist] = useWishlist();
     const [loading, setLoading] = useState(false);
     const [productId, setProductId] = useState('')
-    const [featuredProducts, setFeaturedProducts] = useState([]);
-    const [featuredCart, setFeaturedCart] = useState([]); // Separate cart for featured products
     const [wishlistClicked, setWishlistClicked] = useState(false);
+    const [filteredProduct, setFilteredProduct] = useState([]);
 
     const getAllProduct = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
+            const { data } = await axios.get(`http://localhost:8000/api/product/product-list/${page}`);
             setLoading(false)
             setProduct(data?.products)
         } catch (error) {
@@ -38,20 +38,12 @@ const HomePage = () => {
         }
     }
 
-    const getFeaturedProducts = async () => {
-        try {
-            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-featured-product");
-            setFeaturedProducts(data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
 
     useEffect(() => {
         if (page === 1) return
         loadMore()
     }, [page])
+
     const handleShare = async (product) => {
         try {
             if (navigator.share) {
@@ -71,7 +63,7 @@ const HomePage = () => {
     const loadMore = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-list/${page}`)
+            const { data } = await axios.get(`http://localhost:8000/api/product/product-list/${page}`)
             setLoading(false)
             setProduct([...product, ...data?.products])
 
@@ -82,7 +74,7 @@ const HomePage = () => {
     }
     const getTotal = async () => {
         try {
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/product-count`)
+            const { data } = await axios.get(`http://localhost:8000/api/product/product-count`)
             setTotal(data?.total)
         } catch (error) {
             console.log(error)
@@ -97,7 +89,7 @@ const HomePage = () => {
 
     const getCategory = async () => {
         try {
-            const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/category/get-category`)
+            const { data } = await axios.get(`http://localhost:8000/api/category/get-category`)
             if (data?.success) {
                 setCategory(data?.category)
             }
@@ -163,26 +155,32 @@ const HomePage = () => {
 
 
     useEffect(() => {
-        if (!checked.length || !radio.length) getAllProduct();
+        if (!checked.length || !radio.length) {
+            getAllProduct();
+        }
         //eslint-disable-next-line
-    }, [checked.length, radio.length])
-
-
-    useEffect(() => {
-        if (checked.length || radio.length) filterProduct()
-
-    }, [checked, radio])
+    }, [checked.length, radio.length]);
 
     const filterProduct = async () => {
         try {
-            const { data } = await axios.post(`https://backend-ecom-9zf7.onrender.com/api/product/filter-product`, { checked, radio })
-            setProduct(data?.product)
-
+            if (checked.length === 0) {
+                // If no categories are checked, reset the filteredProduct state to display all products
+                setFilteredProduct([]);
+            } else {
+                const { data } = await axios.post(`http://localhost:8000/api/product/filter-product`, { checked, radio });
+                console.log('Filtered Product Data:', data);
+                setFilteredProduct(data?.product);
+            }
         } catch (error) {
-            console.log(error)
+            console.log('Filter Product Error:', error);
         }
     }
 
+    useEffect(() => {
+        if (checked.length || radio.length) {
+            filterProduct();
+        }
+    }, [checked, radio]);
 
     return (
         <Layout title={"HomePage - Ecom"}>
@@ -199,7 +197,7 @@ const HomePage = () => {
                             ))}</Radio.Group>
                     </div>
                     <div className='button-reset'>
-                        <button className='btn btn-danger ' onClick={() => { window.location.reload() }}>Reset Filters</button>
+                        <button className='btn btn-danger ' onClick={() => { setChecked([]); setRadio([]); }}>Reset Filters</button>
                     </div>
                 </div>
                 <div className='col-md-10'>
@@ -211,53 +209,102 @@ const HomePage = () => {
                             </Checkbox>
                         ))}
                     </div>
+                    {/* <FeaturedProducts /> */}
                     <div style={{ justifyContent: 'center' }} className='d-flex flex-wrap'>
-                        {product?.map((pdata) => (
-                            <div className='card m-2 ' style={{ width: "15.7rem", height: '23rem' }} key={pdata._id}>
-                                <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.images[0]} className='card-img-top' alt={pdata.name} />
-                                <div className='card-body p-0'>
-                                    <h5 className='card-title mb-1' style={{ marginLeft: "9px" }}><b>Name: </b>{pdata?.name}</h5>
-                                    <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Info: </b>{pdata?.description.substring(0, 25)}...</p>
-                                    <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Price: </b> {pdata?.price}</p>
-                                    <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Category: </b> {pdata?.category?.name}</p>
-                                    <img
-                                        onClick={() => handleWishlistClick(pdata)}
-                                        src={wishlist.some((item) => item._id === pdata._id) ? wishlistHeartFill : wishlists}
-                                        alt="wishlist"
-                                        width="20px"
-                                        height="20px"
-                                        className={`wishlist-icon mx-2${wishlistClicked === pdata._id ? ' fade-out' : ''}`}
-                                        style={{ transition: 'opacity 0.3s ease-in-out' }}
 
-                                    />
-                                    <a onClick={() => handleShare(pdata)}>
+                        {filteredProduct.length > 0 ? (
+                            // Display filtered products
+                            filteredProduct.map((pdata) => (
+                                <div className='card m-2' style={{ width: "15.7rem", height: '21rem' }} key={pdata._id}>
+                                    <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.images[0]} className='card-img-top' alt={pdata.name} />
+                                    <div className='card-body p-0'>
+                                        <h5 className='card-title mb-1' style={{ marginLeft: "9px" }}><b>Name: </b>{pdata?.name}</h5>
+                                        <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Info: </b>{pdata?.description.substring(0, 25)}...</p>
+                                        <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Price: </b> {pdata?.price}</p>
                                         <img
-                                            style={{ height: '20px', width: "20px", cursor: 'pointer' }}
-                                            src={share}
-                                            className='card-img-top'
-                                            alt={pdata.name}
+                                            onClick={() => handleWishlistClick(pdata)}
+                                            src={wishlist.some((item) => item._id === pdata._id) ? wishlistHeartFill : wishlists}
+                                            alt="wishlist"
+                                            width="20px"
+                                            height="20px"
+                                            className={`wishlist-icon mx-2${wishlistClicked === pdata._id ? ' fade-out' : ''}`}
+                                            style={{ transition: 'opacity 0.3s ease-in-out' }}
                                         />
-                                    </a>
+                                        <a onClick={() => handleShare(pdata)}>
+                                            <img
+                                                style={{ height: '20px', width: "20px", cursor: 'pointer' }}
+                                                src={share}
+                                                className='card-img-top'
+                                                alt={pdata.name}
+                                            />
+                                        </a>
+                                    </div>
+                                    <div style={{ height: '4rem', width: '100%' }} className='card-footer d-flex flex-direction-row justify-content-around gap-2 p-3'>
+                                        {cart.find(item => item._id === pdata._id) ? (
+                                            // Render the "Add To Cart" button if the condition is true
+                                            <button style={{ fontSize: "75%", overflow: 'hidden' }} className='btn btn-outline-dark mt-auto' onClick={() => removeFromCart(pdata._id)}>Remove From Cart</button>
+                                        ) : (
+                                            // Render the "Remove" button if the condition is false
+                                            <button
+                                                onClick={() => handleAddToCart(pdata)}
+                                                className='btn btn-outline-dark mt-auto'
+                                                style={{ fontSize: "75%", overflow: 'hidden' }}
+                                            >
+                                                {cart.find(item => item._id === pdata._id)} Add To Cart
+                                            </button>
+                                        )}
+                                        <Link to={`/single-product/${pdata.slug}`} className='btn btn-primary mt-auto ' style={{ fontSize: "75%", overflow: 'hidden', display: 'inline-block' }}>Details</Link>
+                                    </div>
                                 </div>
-                                <div style={{ height: '4.0rem', width: '100%' }} className='card-footer d-flex flex-direction-row justify-content-around gap-2 p-3'>
-                                    {cart.find(item => item._id === pdata._id) ? (
-                                        // Render the "Add To Cart" button if the condition is true
+                            ))
+                        ) : (
+                            product.map((pdata) => (
+                                <div className='card m-2 ' style={{ width: "15.7rem", height: '23rem' }} key={pdata._id}>
+                                    <img style={{ height: "10rem", width: "15.0rem", padding: '4px', marginLeft: '6px', borderRadius: 10, objectFit: "cover" }} src={pdata.images[0]} className='card-img-top' alt={pdata.name} />
+                                    <div className='card-body p-0'>
+                                        <h5 className='card-title mb-1' style={{ marginLeft: "9px" }}><b>Name: </b>{pdata?.name}</h5>
+                                        <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Info: </b>{pdata?.description.substring(0, 25)}...</p>
+                                        <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Price: </b> {pdata?.price}</p>
+                                        <p className='card-text mb-1' style={{ marginLeft: "9px" }}><b>Category: </b> {pdata?.category?.name}</p>
+                                        <img
+                                            onClick={() => handleWishlistClick(pdata)}
+                                            src={wishlist.some((item) => item._id === pdata._id) ? wishlistHeartFill : wishlists}
+                                            alt="wishlist"
+                                            width="20px"
+                                            height="20px"
+                                            className={`wishlist-icon mx-2${wishlistClicked === pdata._id ? ' fade-out' : ''}`}
+                                            style={{ transition: 'opacity 0.3s ease-in-out' }}
 
-                                        <button style={{ fontSize: "75%", overflow: 'hidden' }} className='btn btn-outline-dark mt-auto' onClick={() => removeFromCart(pdata._id)}>Remove From Cart</button>
-                                    ) : (
-                                        // Render the "Remove" button if the condition is false
-                                        <button
-                                            onClick={() => handleAddToCart(pdata)}
-                                            className='btn btn-outline-dark mt-auto'
-                                            style={{ fontSize: "75%", overflow: 'hidden' }}
-                                        >
-                                            {cart.find(item => item._id === pdata._id)} Add To Cart
-                                        </button>
-                                    )}
-                                    <Link to={`/single-product/${pdata.slug}`} className='btn btn-primary mt-auto ' style={{ fontSize: "75%", overflow: 'hidden', display: 'inline-block' }}>Details</Link>
+                                        />
+                                        <a onClick={() => handleShare(pdata)}>
+                                            <img
+                                                style={{ height: '20px', width: "20px", cursor: 'pointer' }}
+                                                src={share}
+                                                className='card-img-top'
+                                                alt={pdata.name}
+                                            />
+                                        </a>
+                                    </div>
+                                    <div style={{ height: '4.0rem', width: '100%' }} className='card-footer d-flex flex-direction-row justify-content-around gap-2 p-3'>
+                                        {cart.find(item => item._id === pdata._id) ? (
+                                            // Render the "Add To Cart" button if the condition is true
+
+                                            <button style={{ fontSize: "75%", overflow: 'hidden' }} className='btn btn-outline-dark mt-auto' onClick={() => removeFromCart(pdata._id)}>Remove From Cart</button>
+                                        ) : (
+                                            // Render the "Remove" button if the condition is false
+                                            <button
+                                                onClick={() => handleAddToCart(pdata)}
+                                                className='btn btn-outline-dark mt-auto'
+                                                style={{ fontSize: "75%", overflow: 'hidden' }}
+                                            >
+                                                {cart.find(item => item._id === pdata._id)} Add To Cart
+                                            </button>
+                                        )}
+                                        <Link to={`/single-product/${pdata.slug}`} className='btn btn-primary mt-auto ' style={{ fontSize: "75%", overflow: 'hidden', display: 'inline-block' }}>Details</Link>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                     <div className='m-2 p-2'>
                         {product && product.length < total && radio.length === 0 && (

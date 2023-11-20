@@ -4,7 +4,8 @@ import Layout from "../../components/layout/Layout.jsx";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 const ProductAdmin = () => {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate()
@@ -12,7 +13,7 @@ const ProductAdmin = () => {
     // Get all products
     const getAllProducts = async () => {
         try {
-            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-product");
+            const { data } = await axios.get("http://localhost:8000/api/product/get-product");
             setProducts(data?.product);
         } catch (error) {
             console.log(error);
@@ -26,24 +27,32 @@ const ProductAdmin = () => {
 
     const handleDelete = async (productId) => {
         try {
-            const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/product/delete-product/${productId}`);
+            const { data } = await axios.delete(`http://localhost:8000/api/product/delete-product/${productId}`);
             console.log(data);
             getAllProducts();
+            toast.success(data.message || 'Product deleted successfully');
+
         } catch (error) {
             console.log(error);
+
         }
     };
     const toggleFeatured = async (productId) => {
         try {
-            await axios.put(`https://backend-ecom-9zf7.onrender.com/api/product/toggle-featured/${productId}`);
+            await axios.put(`http://localhost:8000/api/product/toggle-featured/${productId}`);
             getAllProducts();
+            toast.success('Featured status updated successfully');
+
         } catch (error) {
             console.log(error);
+            toast.error(error.response?.data?.message || 'Error updating featured status');
         }
     };
 
     return (
         <Layout>
+            <ToastContainer />
+
             <button
                 style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }}
                 className='btn btn-primary'

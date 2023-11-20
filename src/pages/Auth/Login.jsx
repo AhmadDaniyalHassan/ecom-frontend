@@ -6,6 +6,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import loginimage from '../../assets/loginimage.webp'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -27,10 +29,11 @@ const Login = () => {
           token: response.data.token
         });
         localStorage.setItem('auth', JSON.stringify(response.data))
+        toast.success('Login Successful');
         navigate(location.state || "/")
       }
     } catch (error) {
-      console.log("Error from login api xD", error)
+      toast.error('Error logging in');
     }
 
   }
@@ -43,6 +46,7 @@ const Login = () => {
   return (
     <>
       <Header />
+      <ToastContainer />
       <div className='login mt-4'>
         <div className='container'>
           <div className='row'>
