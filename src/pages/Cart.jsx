@@ -145,6 +145,7 @@ const AddToCart = () => {
           quantity,
           paymentMethod,
           couponCode,
+
         });
         localStorage.removeItem('cart');
         setCart([]);

@@ -80,7 +80,7 @@ const Order = () => {
                                 {order.products.map((prod, k) => (
                                     <div className='flex d-flex' key={k}>
                                         <img style={{ padding: '4px', width: '9rem', height: '9rem', marginTop: '2px', borderRadius: '10px' }}
-                                            src={prod.image} className='card-img-top mx-4 my-2' alt={prod.name} />
+                                            src={prod.images[0]} className='card-img-top mx-4 my-2' alt={prod.name} />
                                         <div>
                                             <p className='m-2'><b>Product Name: </b> {prod.name}</p>
                                             <p className='m-2'><b>Quantity Of Each Ordered Product: </b> {prod.quantity}</p>

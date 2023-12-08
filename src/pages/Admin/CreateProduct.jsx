@@ -51,7 +51,7 @@ const CreateProduct = () => {
             for (const file of images) {
                 formData.append('images', file);
             }
-            const { data } = await axios.post('http://localhost:8000/api/product/create-product', formData)
+            const { data } = await axios.post('https://backend-ecom-9zf7.onrender.com/api/product/create-product', formData)
             if (data?.success) {
                 toast.success(data?.message || 'Product Created Successfully');
                 navigate("/dashboard/admin/products");

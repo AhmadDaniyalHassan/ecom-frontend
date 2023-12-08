@@ -13,7 +13,7 @@ const ProductAdmin = () => {
     // Get all products
     const getAllProducts = async () => {
         try {
-            const { data } = await axios.get("http://localhost:8000/api/product/get-product");
+            const { data } = await axios.get("https://backend-ecom-9zf7.onrender.com/api/product/get-product");
             setProducts(data?.product);
         } catch (error) {
             console.log(error);
