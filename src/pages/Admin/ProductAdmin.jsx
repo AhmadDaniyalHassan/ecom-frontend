@@ -27,32 +27,27 @@ const ProductAdmin = () => {
 
     const handleDelete = async (productId) => {
         try {
-            const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/product/delete-product/${productId}`);
+            const { data } = await axios.delete(`http://localhost:8000/api/product/delete-product/${productId}`);
             console.log(data);
             getAllProducts();
-            toast.success(data.message || 'Product deleted successfully');
-
         } catch (error) {
-            console.log(error);
-
+            console.error('Error deleting product:', error);
         }
     };
+
     const toggleFeatured = async (productId) => {
         try {
-            await axios.put(`https://backend-ecom-9zf7.onrender.com/product/toggle-featured/${productId}`);
+            await axios.put(`http://localhost:8000/api/product/toggle-featured/${productId}`);
             getAllProducts();
-            toast.success('Featured status updated successfully');
-
         } catch (error) {
-            console.log(error);
-            toast.error(error.response?.data?.message || 'Error updating featured status');
+            console.error('Error toggling featured status:', error);
+            toast.error(error.response?.data?.message);
         }
     };
 
     return (
         <Layout>
             <ToastContainer />
-
             <button
                 style={{ marginTop: 65, marginLeft: 15, marginBottom: 15 }}
                 className='btn btn-primary'

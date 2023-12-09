@@ -15,7 +15,7 @@ const Dashboard = () => {
             setUnsubscribeLoading(true);
 
             // Make an API request to unsubscribe
-            const response = await axios.post('https://backend-ecom-9zf7.onrender.com/api/user/unsubscribe-newsletter', {
+            const response = await axios.post('http://localhost:8000/api/user/unsubscribe-newsletter', {
                 userId: auth?.user._id,
             });
 
@@ -40,7 +40,7 @@ const Dashboard = () => {
 
     return (
 
-        <Layout title="Dashboard - User-Panel">
+        < Layout title="Dashboard - User-Panel" >
             <button style={{ marginTop: 25, marginLeft: 40 }} className='btn btn-primary' onClick={() => navigate(-1)}>Go Back</button>
 
             <div className='container-fluid m-3 p-3'>
@@ -66,7 +66,7 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </Layout >
     )
 }
 

@@ -10,9 +10,8 @@ import { Prices } from '../components/Prices'
 import wishlistHeartFill from '../assets/wishlist-heart-fill.svg'
 import share from '../assets/share.svg'
 import Hero from '../components/Hero.jsx'
-
+import FeaturedProducts from '../components/FeaturedProducts.jsx'
 const HomePage = () => {
-
     const [product, setProduct] = useState([]);
     const [category, setCategory] = useState([]);
     const [checked, setChecked] = useState([]);
@@ -210,6 +209,9 @@ const HomePage = () => {
                         ))}
                     </div>
                     {/* <FeaturedProducts /> */}
+                    <div style={{ justifyContent: 'center' }} className='d-flex flex-wrap'>
+                        <FeaturedProducts />
+                    </div>
                     <div style={{ justifyContent: 'center' }} className='d-flex flex-wrap'>
 
                         {filteredProduct.length > 0 ? (

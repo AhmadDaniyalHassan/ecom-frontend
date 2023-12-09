@@ -220,7 +220,6 @@ const Product = () => {
         try {
             const { data } = await axios.get(`https://backend-ecom-9zf7.onrender.com/api/product/single-product/${params.slug}`);
             setProduct(data?.product);
-            console.log(data?.product)
             getSimilarProduct(data?.product?._id, data?.product.category._id);
             setProductId(data?.product?._id);
         } catch (error) {
@@ -424,7 +423,7 @@ const Product = () => {
                 ))}
             </div>
 
-            {!loading && reviews.length > 0 && (
+            {!loading && reviews.length > 3 && (
                 <div className='d-flex justify-content-center mt-2'>
                     <button className='btn btn-outline-dark mt-auto ' onClick={handleLoadMore}>
                         Load More Reviews
@@ -480,7 +479,7 @@ const Product = () => {
                     ))}
                 </div>
             )}
-            {!loading && questions.length > 0 && (
+            {!loading && questions.length > 3 && (
                 <div className='d-flex justify-content-center mt-2'>
                     <button className='btn btn-outline-dark mt-auto' onClick={handleLoadMoreQuestion}>
                         Load More Questions

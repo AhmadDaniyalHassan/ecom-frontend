@@ -133,13 +133,15 @@ const Header = () => {
                           </NavLink>
                         </li>
                       )}
-                      <li>
-                        <NavLink className="dropdown-item"
-                          to={`/dashboard/user`}
-                        >
-                          Profile
-                        </NavLink>
-                      </li>
+                      {auth?.user?.role === 0 && (
+                        <li>
+                          <NavLink className="dropdown-item"
+                            to={`/dashboard/user`}
+                          >
+                            Profile
+                          </NavLink>
+                        </li>
+                      )}
                       <li>
                         <NavLink onClick={handleLogout} className="dropdown-item"
                           to={"/login"}

@@ -37,7 +37,7 @@ const UserShow = () => {
     try {
       const { data } = await axios.delete(`https://backend-ecom-9zf7.onrender.com/api/user/delete-user/${userId}`);
       console.log(data);
-      getAllUsers(); // Refresh the user list after deletion.
+      getAllUsers();
       toast.success('User deleted successfully');
     } catch (error) {
       console.log(error);
