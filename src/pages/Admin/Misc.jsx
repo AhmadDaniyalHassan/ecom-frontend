@@ -10,7 +10,7 @@ const Misc = () => {
     const navigate = useNavigate()
     async function fetchData() {
         try {
-            const response = await axios.get('http://localhost:8000/api/coupon/generate-coupon');
+            const response = await axios.get('https://backend-ecom-9zf7.onrender.com/api/coupon/generate-coupon');
             const resp = response.data;
 
 
@@ -24,7 +24,7 @@ const Misc = () => {
     }
     async function deleteData() {
         try {
-            const response = await axios.delete('http://localhost:8000/api/coupon/delete-all-coupons');
+            const response = await axios.delete('https://backend-ecom-9zf7.onrender.com/api/coupon/delete-all-coupons');
             const resp = response.data;
             // Now you can use the 'resp' variable to access the data from the response
             setCoupon([]);
@@ -37,7 +37,7 @@ const Misc = () => {
     }
     const getCoupon = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/coupon/get-coupon');
+            const response = await axios.get('https://backend-ecom-9zf7.onrender.com/api/coupon/get-coupon');
             const cop = response.data;
             setCoupon(cop)
         } catch (error) {
